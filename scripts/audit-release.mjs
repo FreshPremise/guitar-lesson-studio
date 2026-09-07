@@ -1,7 +1,7 @@
 import { readFile, readdir, lstat, realpath } from 'node:fs/promises';
 import { resolve, relative, join } from 'node:path';
 import { createHash } from 'node:crypto';
-import { SOURCE_FILES, HOSTING_FILES } from './release-files.mjs';
+import { SOURCE_FILES, BROWSER_FILES } from './release-files.mjs';
 const root = await realpath(resolve(import.meta.dirname, '..'));
 const findings = [];
 // Heuristics supplement source review. Only filenames/categories are printed, never matched secrets.
@@ -28,7 +28,7 @@ async function walk(dir) {
 }
 for (const [directory, expected] of [
   ['release/github-source', SOURCE_FILES],
-  ['dist', HOSTING_FILES],
+  ['dist', BROWSER_FILES],
 ]) {
   const base = resolve(root, directory),
     files = await walk(base),

@@ -5,19 +5,17 @@ export const LICENSE_FILES = [
   'assets/electric/LICENSE.md',
   'assets/electric/sample-source-info.txt',
 ];
-export const HOSTING_FILES = [...PUBLIC_FILES, ...LICENSE_FILES];
+export const BROWSER_FILES = [...PUBLIC_FILES, ...LICENSE_FILES];
 export const SOURCE_FILES = [
   ...new Set([
-    ...HOSTING_FILES,
+    ...BROWSER_FILES,
     'assets/v6-manifest.json',
     'src/synth.js',
     'README.md',
     'SECURITY.md',
-    'FIREBASE_PLAN.md',
     'GITHUB_RELEASE_CHECKLIST.md',
     '.gitignore',
     'package.json',
-    'firebase.json',
     'docs/guitar-lesson-studio.png',
     'Start Guitar Studio.cmd',
     'Start Guitar Lesson Studio.cmd',
