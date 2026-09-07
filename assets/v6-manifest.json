@@ -1,0 +1,162 @@
+{
+  "sampleRevision": "622c2f1c32c8cfce4158ddc3eb26e518ddef37e5",
+  "fontSource": "https://github.com/google/fonts/tree/main/ofl/manrope",
+  "retrieved": "2026-09-06",
+  "files": [
+    {
+      "path": "assets/guitar/A2.mp3",
+      "sha256": "43e339bcd75f5f26336be8e1e59b131a0bf06dbf66f588f1c59a8d9faf53613f",
+      "bytes": 276724
+    },
+    {
+      "path": "assets/guitar/A3.mp3",
+      "sha256": "025dbfd0aa2be101518bbf4587bbf0d81b96f6f9d01880287af749dc28201551",
+      "bytes": 105200
+    },
+    {
+      "path": "assets/guitar/A4.mp3",
+      "sha256": "1f8263f10e24509d8d0bb82c7dd873bfe7da5354ba0333f23ebfc0f02076361a",
+      "bytes": 97688
+    },
+    {
+      "path": "assets/guitar/C3.mp3",
+      "sha256": "b9533ea5477879ddb9e1742c29f9084488ef70beee50a6fb44429d5b9a994e99",
+      "bytes": 331812
+    },
+    {
+      "path": "assets/guitar/C4.mp3",
+      "sha256": "594c98aa8f9d1a426078e91899525f143e0bc82218b7b2c3f4cea2c54c181925",
+      "bytes": 83916
+    },
+    {
+      "path": "assets/guitar/C5.mp3",
+      "sha256": "bed99fde143232c3a33847b82cf3e07c5d5e47b56d584d3d829d01deb9defbab",
+      "bytes": 82664
+    },
+    {
+      "path": "assets/guitar/D5.mp3",
+      "sha256": "c9d74d19e672780b7b6e9eb4468b31b5fee6642f20df724198b232f7c78af4f1",
+      "bytes": 78282
+    },
+    {
+      "path": "assets/guitar/E2.mp3",
+      "sha256": "917820984d1bb0b7712b4f2c42a9694efbb2479ccede45aa78af73811fc6818d",
+      "bytes": 260448
+    },
+    {
+      "path": "assets/guitar/E3.mp3",
+      "sha256": "ffd6add4d02e0c9e45af59db231af77274b83602762878a9b1945210ae04bef5",
+      "bytes": 246050
+    },
+    {
+      "path": "assets/guitar/E4.mp3",
+      "sha256": "3b02f5448695ac92f257ea9e36ba77be1b1b4a08f62a549b95c7ea9f5303ce14",
+      "bytes": 109582
+    },
+    {
+      "path": "assets/guitar/LICENSE.md",
+      "sha256": "a98934bef76e4832a20a3dd8e3928cbd6175eba3a651b43256b5f23ce5cfd501",
+      "bytes": 1161
+    },
+    {
+      "path": "assets/guitar/sample-source-info.txt",
+      "sha256": "6c098693e0699ed206b23c17097abe4db18241369e7ced8e7e7c800ce1e86578",
+      "bytes": 699
+    },
+    {
+      "path": "assets/electric/A2.mp3",
+      "sha256": "cef8d3fe2cb17c36e4e9a96a002613aac15fe6224ef3d09e91ba23cc3555b910",
+      "bytes": 102696
+    },
+    {
+      "path": "assets/electric/A3.mp3",
+      "sha256": "b840f271794efc3efcce886d71d1ee57cf6d524b6da1be15b1429f6bc8fe2f45",
+      "bytes": 102696
+    },
+    {
+      "path": "assets/electric/A4.mp3",
+      "sha256": "a817ca1ebdbdc32d0011044c41d906438cc1b0358a0adb6373f2f26d140e5cb2",
+      "bytes": 102696
+    },
+    {
+      "path": "assets/electric/A5.mp3",
+      "sha256": "19756be9ea1b21ced2d519886a4d812665855b4f0a56509535ecc3bedebeb2c8",
+      "bytes": 102696
+    },
+    {
+      "path": "assets/electric/C3.mp3",
+      "sha256": "4859bcaf12f9bf953bdcdbfbbbac18c86516b3f0566b8ea0a2b195ba7beb09a9",
+      "bytes": 102696
+    },
+    {
+      "path": "assets/electric/C4.mp3",
+      "sha256": "b2252b95bbea34faba9d7800c1ab1c819d548d18d0cbada7882395fdc34e2617",
+      "bytes": 102696
+    },
+    {
+      "path": "assets/electric/C5.mp3",
+      "sha256": "6b0671195f6d82b2fdf8afab8d1883554d2c0fb7d99cc935adc609c2816397f3",
+      "bytes": 102696
+    },
+    {
+      "path": "assets/electric/C6.mp3",
+      "sha256": "0d170c00a32045de1a7e71ea6c14cfb78cb16cebe7706066b0cf5c4f45797415",
+      "bytes": 102696
+    },
+    {
+      "path": "assets/electric/Ds3.mp3",
+      "sha256": "0b6e69576b898eb61460a4b2b32ba4bcd4943a95035ba5794c19abdffc0208a0",
+      "bytes": 102696
+    },
+    {
+      "path": "assets/electric/Ds4.mp3",
+      "sha256": "0d9d732faa3ec958c9e537a8bcc4421077150362617266636407ee7a93ca11eb",
+      "bytes": 102696
+    },
+    {
+      "path": "assets/electric/Ds5.mp3",
+      "sha256": "f8c690e0fa3fd235196673e6ef32a5929534c70bc9eaaa5a7632e39cca263cf4",
+      "bytes": 102696
+    },
+    {
+      "path": "assets/electric/E2.mp3",
+      "sha256": "7dd2be5de9d91dcd7f525ef8e1bfc8d77ffc27ac98faeb61e5eea0357ce42b75",
+      "bytes": 102696
+    },
+    {
+      "path": "assets/electric/Fs3.mp3",
+      "sha256": "c8ac921a460d64d162a79e0c7174ddabec7b7d501ddcf875efe81c84ae160b8e",
+      "bytes": 102696
+    },
+    {
+      "path": "assets/electric/Fs4.mp3",
+      "sha256": "ff8045e8c863e3cad7a6094f32b672893ddc98a00de88460ef114d99f3e7c016",
+      "bytes": 102696
+    },
+    {
+      "path": "assets/electric/Fs5.mp3",
+      "sha256": "ded100a22902ef51c6ef634dfcefdedd278b96322f5d7b31dd8d2f400b78d0ba",
+      "bytes": 102696
+    },
+    {
+      "path": "assets/electric/LICENSE.md",
+      "sha256": "a98934bef76e4832a20a3dd8e3928cbd6175eba3a651b43256b5f23ce5cfd501",
+      "bytes": 1161
+    },
+    {
+      "path": "assets/electric/sample-source-info.txt",
+      "sha256": "6c098693e0699ed206b23c17097abe4db18241369e7ced8e7e7c800ce1e86578",
+      "bytes": 699
+    },
+    {
+      "path": "assets/fonts/Manrope.ttf",
+      "sha256": "d0639be45d0af36e798172419d7bd173c4bd4f29e2b76cbb69db1d11bf8b0a40",
+      "bytes": 165420
+    },
+    {
+      "path": "assets/fonts/OFL.txt",
+      "sha256": "e01b637272e0cbdfb240184dd98ea5cc671556d9894dae2668d92ab2c906787c",
+      "bytes": 4384
+    }
+  ]
+}
