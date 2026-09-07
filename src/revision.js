@@ -27,7 +27,7 @@ export function attachRevision({
     <div class="guide-content" tabindex="0" aria-label="Guide instructions">
       <section id="guide-overview" tabindex="-1"><h3>Explore chords. Build a piece. Practice.</h3>
         <p><strong>Guitar Lesson Studio</strong> is an interactive guitar workbench for students and players. Explore a color-coded fretboard, identify and hear chords, learn scales, compose chord sequences, and save your discoveries.</p>
-        <p><strong>Get the application:</strong> <a href="https://github.com/FreshPremise/guitar-lesson-studio" target="_blank" rel="noopener noreferrer">Download Guitar Lesson Studio from GitHub</a>. The repository includes source code and installation instructions. The download and hosted demo may have different version numbers; check the README.</p>
+        <p><strong>Get the application:</strong> <a href="https://github.com/FreshPremise/guitar-lesson-studio" target="_blank" rel="noopener noreferrer">Download Guitar Lesson Studio from GitHub</a>. The repository includes source code and installation instructions. Check the README for the current version.</p>
       </section>
       <section id="guide-start" tabindex="-1"><h3>Make your first piece</h3><ol>
         <li>Open <strong>Sequence → Progressions</strong> and choose a key.</li>
