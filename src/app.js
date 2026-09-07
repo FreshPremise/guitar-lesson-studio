@@ -160,7 +160,9 @@ on('recall-known', 'click', () => {
   recallQueue.shift();
   renderRecall();
 });
-on('capo-select', 'change', (e) => update({ capo: Number(e.target.value) }));
+on('capo-select', 'change', (e) => {
+  if (!update({ capo: Number(e.target.value) })) e.target.value = state.capo;
+});
 on('spelling-select', 'change', (e) => update({ preferFlats: e.target.value === 'flat' }));
 on('flip-neck', 'click', () => update({ flipped: !state.flipped }));
 on('scale-menu', 'click', () => {
@@ -395,7 +397,7 @@ const resize = new ResizeObserver(() => {
   const columns = getComputedStyle(grid).gridTemplateColumns.split(' ').length;
   const minHeight = $('library-view').value === 'shapes' ? 120 : 152;
   const count =
-    Math.max(1, columns) * Math.max(1, Math.min(3, Math.floor((grid.clientHeight + 9) / (minHeight + 9))));
+    Math.max(1, columns) * Math.max(1, Math.min(8, Math.floor((grid.clientHeight + 9) / (minHeight + 9))));
   if (count !== pageSize) {
     pageSize = count;
     page = 0;
@@ -403,6 +405,75 @@ const resize = new ResizeObserver(() => {
   }
 });
 resize.observe($('library-cards'));
+attachWorkspaceLayout();
+function attachWorkspaceLayout() {
+  const wrap = document.querySelector('.fretboard-wrap');
+  const scroll = $('neck-scroll');
+  const syncScroll = () => {
+    const distance = wrap.scrollWidth - wrap.clientWidth;
+    scroll.hidden = distance <= 1;
+    scroll.value = distance > 0 ? String(Math.round(wrap.scrollLeft / distance * 100)) : '0';
+  };
+  scroll.addEventListener('input', () => { wrap.scrollLeft = Number(scroll.value) / 100 * (wrap.scrollWidth - wrap.clientWidth); });
+  wrap.addEventListener('scroll', syncScroll);
+  const neckResize = new ResizeObserver(syncScroll);
+  neckResize.observe(wrap);
+  neckResize.observe($('fretboard'));
+  syncScroll();
+  const instrument = document.querySelector('.instrument');
+  const handle = $('selection-resize');
+  let width = 300;
+  try { width = Number(localStorage.getItem('guitar-studio-panel-width')) || 300; } catch {}
+  const setWidth = (value, save = false) => {
+    const max = Math.max(220, Math.min(520, instrument.clientWidth - 570));
+    width = Math.round(Math.max(220, Math.min(max, value)));
+    instrument.style.setProperty('--selection-width', width + 'px');
+    handle.setAttribute('aria-valuenow', String(width));
+    handle.setAttribute('aria-valuemax', String(max));
+    if (save) try { localStorage.setItem('guitar-studio-panel-width', String(width)); } catch {}
+  };
+  let drag = null;
+  handle.addEventListener('pointerdown', (e) => {
+    if (e.button !== 0) return;
+    drag = { x: e.clientX, width };
+    handle.setPointerCapture(e.pointerId);
+    handle.focus();
+    e.preventDefault();
+  });
+  handle.addEventListener('pointermove', (e) => {
+    if (drag) setWidth(drag.width + drag.x - e.clientX);
+  });
+  const finish = () => { if (drag) setWidth(width, true); drag = null; };
+  handle.addEventListener('pointerup', finish);
+  handle.addEventListener('lostpointercapture', finish);
+  handle.addEventListener('pointercancel', finish);
+  handle.addEventListener('keydown', (e) => {
+    if (!['ArrowLeft', 'ArrowRight', 'Home', 'End'].includes(e.key)) return;
+    e.preventDefault();
+    setWidth(e.key === 'Home' ? 300 : e.key === 'End' ? 520 : width + (e.key === 'ArrowLeft' ? 20 : -20), true);
+  });
+  new ResizeObserver(() => setWidth(width)).observe(instrument);
+  setWidth(width);
+  const workspace = document.querySelector('.workspace');
+  const placeholder = document.createComment('workspace home');
+  workspace.before(placeholder);
+  const dialog = node('dialog');
+  dialog.id = 'workspace-dialog';
+  dialog.setAttribute('aria-label', 'Expanded learning tools');
+  document.body.append(dialog);
+  $('workspace-expand').addEventListener('click', () => {
+    if (dialog.open) return dialog.close();
+    dialog.append(workspace);
+    $('workspace-expand').textContent = 'Restore';
+    dialog.showModal();
+    $(`tool-${activeTool}`).focus();
+  });
+  dialog.addEventListener('close', () => {
+    placeholder.after(workspace);
+    $('workspace-expand').textContent = 'Expand';
+    $('workspace-expand').focus();
+  });
+}
 function showTool(name) {
   activeTool = name;
   tools.forEach((t) => {
@@ -493,15 +564,23 @@ function renderAll() {
 }
 function renderBoard(view = state, target = null) {
   const board = target ?? $('fretboard');
-  const [minFret, maxFret] =
-    !target && !playbackPreview && view.fretRange !== 'all' ? view.fretRange.split('-').map(Number) : [0, 12];
+  const end = target
+    ? Math.min(24 - view.capo, Math.max(12, ...view.shape.filter((f) => typeof f === 'number')))
+    : 24 - view.capo;
+  let [minFret, maxFret] =
+    !target && !playbackPreview && view.fretRange !== 'all' ? view.fretRange.split('-').map(Number) : [0, end];
+  maxFret = Math.min(maxFret, end);
+  minFret = Math.min(minFret, maxFret);
+  const previousScroll = board.parentElement?.scrollLeft ?? 0;
   board.replaceChildren();
   board.classList.toggle('has-capo', view.capo > 0 && minFret === 0);
   board.classList.toggle('focused-range', maxFret - minFret < 12);
+  board.classList.toggle('full-neck', (!target || end > 12) && maxFret - minFret >= 12);
   board.style.setProperty('--fret-count', maxFret - minFret + 1);
+  board.style.setProperty('--neck-min-width', `${82 + (maxFret - minFret + 1) * 55}px`);
   const labels = node('div', undefined, 'fret-labels');
   for (let f = minFret; f <= maxFret; f++) {
-    const label = node('span', String(f), [3, 5, 7, 9, 12].includes(f + view.capo) ? 'marker' : '');
+    const label = node('span', String(f), [3, 5, 7, 9, 12, 15, 17, 19, 21, 24].includes(f + view.capo) ? 'marker' : '');
     label.title = `Relative fret ${f}; physical fret ${f + view.capo}`;
     if (view.capo) label.append(node('small', `(${f + view.capo})`));
     labels.append(label);
@@ -513,7 +592,9 @@ function renderBoard(view = state, target = null) {
   for (let f = minFret; f <= maxFret; f++) {
     const physical = f + view.capo;
     if (![3, 5, 7, 9, 12, 15, 17, 19, 21, 24].includes(physical)) continue;
-    const marker = node('span', undefined, `inlay${physical % 12 === 0 ? ' double-inlay' : ''}`);
+    const marker = node('span', undefined,
+      `inlay${physical === 12 ? ' triple-inlay' : physical === 7 || physical === 24 ? ' double-inlay' : ''}`);
+    if (physical === 12) marker.append(node('span', undefined, 'inlay-middle'));
     marker.style.gridColumn = String(f - minFret + 1);
     marker.dataset.physicalFret = physical;
     inlays.append(marker);
@@ -597,15 +678,18 @@ function renderBoard(view = state, target = null) {
     neck.append(row);
   });
   board.append(neck);
+  if (board.parentElement) board.parentElement.scrollLeft = previousScroll;
   if (target) return;
   $('orientation-label').textContent = view.flipped ? 'bass string on top' : 'treble string on top';
   $('flip-neck').setAttribute('aria-pressed', String(view.flipped));
   $('capo-readout').textContent = view.capo
     ? `${tuningName(view.tuning)} · capo ${view.capo} · (physical frets)`
-    : `${tuningName(view.tuning)} · 0 = open · frets relative to capo`;
+    : `${tuningName(view.tuning)} · 24 frets · 0 = open`;
   const hiddenNotes = view.shape.filter((f) => typeof f === 'number' && (f < minFret || f > maxFret)).length;
   if (hiddenNotes) $('capo-readout').textContent += ` · ${hiddenNotes} selected outside view`;
   $('fret-range').value = playbackPreview ? 'all' : state.fretRange;
+  for (const option of $('fret-range').options)
+    option.disabled = option.value !== 'all' && Number(option.value.split('-')[0]) > 24 - view.capo;
   $('toggle-map').textContent = view.mapVisible ? 'Hide map' : 'Show map';
   $('toggle-map').setAttribute('aria-pressed', String(view.mapVisible));
   const scale = scaleNotes(view.keyRoot, view.scaleType, { preferFlats: view.preferFlats }).join(' · ');
@@ -1383,6 +1467,12 @@ function startLights() {
         )) {
           el.classList.add('sounding-note');
           el.dataset.playNote = pitchName(n.note % 12, { preferFlats: state.preferFlats });
+          const wrap = el.closest('.fretboard-wrap, #stage-neck');
+          if (wrap && wrap.scrollWidth > wrap.clientWidth) {
+            const cell = el.getBoundingClientRect(), viewport = wrap.getBoundingClientRect();
+            if (cell.left < viewport.left + 8 || cell.right > viewport.right - 8)
+              wrap.scrollLeft += cell.left - viewport.left - wrap.clientWidth / 2;
+          }
         }
     lightFrame = noteLights.length ? requestAnimationFrame(frame) : null;
   };

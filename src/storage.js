@@ -47,13 +47,15 @@ export const defaultState = () => ({
 const validShape = (s) =>
   Array.isArray(s) &&
   s.length === 6 &&
-  s.every((f) => f === 'x' || (Number.isInteger(f) && f >= 0 && f <= 12));
+  s.every((f) => f === 'x' || (Number.isInteger(f) && f >= 0 && f <= 24));
 const validCapo = (c) => Number.isInteger(c) && c >= 0 && c <= 12;
 function requireValue(ok, message) {
   if (!ok) throw new Error(message);
 }
 function grip(value) {
   requireValue(value && validShape(value.shape) && validCapo(value.capo), 'invalid fingering or capo');
+  requireValue(value.shape.every((f) => f === 'x' || f + value.capo <= 24),
+    'This grip would pass physical fret 24. Lower the capo or change the high notes first.');
   const tuning = tuningPreset(value.tuning).id;
   return { shape: [...value.shape], capo: value.capo, tuning };
 }
@@ -99,8 +101,8 @@ const validRhythm = (value) => RHYTHMS.some((r) => r.id === value);
 // Reject an invalid payload whole; never discard or shorten individual records.
 export function validateState(value) {
   requireValue(value && typeof value === 'object' && !Array.isArray(value), 'missing app data');
-  const fretRange = value.fretRange ?? 'all';
-  requireValue(['all', '0-4', '4-8', '8-12'].includes(fretRange), 'invalid fretboard range');
+  let fretRange = value.fretRange ?? 'all';
+  requireValue(['all', '0-4', '4-8', '8-12', '12-16', '16-20', '20-24'].includes(fretRange), 'invalid fretboard range');
   const ramp = value.practiceRamp ?? defaultState().practiceRamp;
   requireValue(
     ramp &&
@@ -119,6 +121,7 @@ export function validateState(value) {
     'unsupported app data version',
   );
   const current = grip(value);
+  if (fretRange !== 'all' && Number(fretRange.split('-')[0]) > 24 - current.capo) fretRange = 'all';
   requireValue(typeof value.preferFlats === 'boolean', 'invalid spelling preference');
   requireValue(PITCH_NAMES_SHARP.includes(value.keyRoot), 'invalid key');
   requireValue(

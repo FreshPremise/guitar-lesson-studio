@@ -7,8 +7,10 @@ export function gripPath(shape, capo = 0, tuning = 'standard') {
 }
 export function scalePath(state, minFret = 0, maxFret = 4, coverage = 'octave') {
   if (!['octave', 'six-strings'].includes(coverage)) throw new RangeError('Unknown scale coverage');
-  if (!Number.isInteger(minFret) || !Number.isInteger(maxFret) || minFret < 0 || maxFret > 12 || minFret > maxFret)
-    throw new RangeError('Choose a fret range between 0 and 12');
+  if (!Number.isInteger(minFret) || !Number.isInteger(maxFret) || minFret < 0 || maxFret > 24 || minFret > maxFret)
+    throw new RangeError('Choose a fret range between 0 and 24');
+  maxFret = Math.min(maxFret, 24 - state.capo);
+  if (minFret > maxFret) throw new RangeError('This position is beyond physical fret 24 with the current capo. Choose a lower range.');
   const pcs = new Set(scaleNotes(state.keyRoot, state.scaleType).map(normalizePitchClass));
   const root = normalizePitchClass(state.keyRoot),
     positions = [];

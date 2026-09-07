@@ -114,7 +114,7 @@ export function revoiceEvent(event, capo, semitones = 0) {
   if (!match?.exact || !CHORD_TYPES.some((t) => t.id === match.suffix)) {
     const delta = event.capo + semitones - capo,
       shape = event.shape.map((f) => (f === 'x' ? f : f + delta));
-    if (shape.some((f) => f !== 'x' && (f < 0 || f > 12)))
+    if (shape.some((f) => f !== 'x' && (f < 0 || f + capo > 24)))
       throw new Error('A note or unrecognized grip cannot keep its pitches in this fret range.');
     return { ...event, shape, capo };
   }

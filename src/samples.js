@@ -1,4 +1,4 @@
-// Local CC-BY 3.0 samples; provenance and license are in SAMPLE_CREDITS.html.
+// Local CC-BY 3.0 samples; provenance and licenses are in Guide → Credits and assets/.
 export const SAMPLE_NOTES = [
   [40, 'E2'],
   [45, 'A2'],
