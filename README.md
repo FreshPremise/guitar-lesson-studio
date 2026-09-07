@@ -2,7 +2,7 @@
 
 **Explore chords. Build a piece. Practice with your guitar.**
 
-A browser-based guitar workbench with an interactive fretboard, chord recognition, sampled guitar sounds and a composition studio. Version **0.8.0**.
+A browser-based guitar workbench with an interactive fretboard, chord recognition, sampled guitar sounds and a composition studio. Version **0.9.3**.
 
 ![Guitar Lesson Studio showing a color-coded C chord and an arranged chord sequence](docs/guitar-lesson-studio.png)
 
@@ -55,7 +55,13 @@ The thin treble string is at the bottom by default; Flip reverses the view. Stri
 
 **Colors:** each of the twelve pitch classes has its own color, consistent across the neck and all octaves. C♯ and D♭ share a color because they are the same pitch. A **red ring** marks your selected notes; a separate **blue outer halo** follows playback. Labels can show note names or chord degrees.
 
-**Fret range:** use the menu beneath the neck to see all frets or enlarge frets 0–4, 4–8 or 8–12. Changing the view keeps your grip intact; the caption counts selected notes outside the view. Playback temporarily shows the full neck and restores your view afterward. Printed and Playing view diagrams retain the full neck.
+**Fret range:** the full neck reaches physical fret 24. Scroll horizontally to reach higher notes, or choose a four-fret range from 0–4 through 20–24. With a capo, relative numbers stop at physical fret 24. Changing the view keeps your grip intact; the caption counts notes outside the view. Playback follows the played notes and restores your range afterward. Compact diagrams include the selected frets. The familiar chord generators and practice quizzes retain their beginner-friendly lower positions.
+
+**More room:** drag the left edge of the selection panel to make it wider or narrower. Keyboard users can focus the divider and use Left/Right; Home resets its width. On small screens the panels stack. Choose **Expand** above Library, Notebook, Sequence or Practice for a larger workspace; all four tabs remain available. **Restore** or Escape returns it to the main page without losing edits.
+
+Backups with notes above fret 12 require version 0.9.0 or later. Earlier music remains compatible with this version.
+
+In shorter windows, scroll the page to reach the complete lower workspace. Its controls and cards retain a usable height rather than being squeezed out of view.
 
 **Stop sound ends all current audio**, including repeating playback and metronome clicks. It never clears your selection, deletes a song or erases your work. It is disabled when nothing is playing. **Pause / Resume** holds and continues playback from the same point.
 
@@ -104,6 +110,6 @@ See the [Firebase plan](FIREBASE_PLAN.md), [security and privacy notes](SECURITY
 
 Guitar Lesson Studio was created using OpenAI Codex with ChatGPT-6 Astra.
 
-Acoustic/electric recordings come from **tonejs-instruments**, with source credits to the University of Iowa and Karoryfer, under **CC-BY 3.0**. **Manrope** uses **SIL OFL 1.1**. See [sound and font credits](SAMPLE_CREDITS.html), the asset licenses and the relative-path hash manifest.
+Acoustic/electric recordings come from **tonejs-instruments**, with source credits to the University of Iowa and Karoryfer, under **CC-BY 3.0**. **Manrope** uses **SIL OFL 1.1**. Open **Guide → Credits** in the application for full development, sound and font attribution. The asset licenses and relative-path hash manifest are included in the source.
 
 A source-code license has not yet been selected. Third-party asset licenses remain in effect; a public open-source release should include an explicit source license.

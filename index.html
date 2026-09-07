@@ -63,6 +63,7 @@
               aria-label="Interactive guitar fretboard"
             ></div>
           </div>
+          <input id="neck-scroll" type="range" min="0" max="100" step="1" value="0" aria-label="Scroll along the fretboard" title="Drag towards the higher frets" hidden />
           <div class="neck-caption">
             <span id="capo-readout"></span
             ><select
@@ -70,10 +71,13 @@
               aria-label="Visible fretboard range"
               title="Zoom to a fret range without changing your grip"
             >
-              <option value="all">All frets</option>
+              <option value="all">Full neck · scroll →</option>
               <option value="0-4">Frets 0–4</option>
               <option value="4-8">Frets 4–8</option>
               <option value="8-12">Frets 8–12</option>
+              <option value="12-16">Frets 12–16</option>
+              <option value="16-20">Frets 16–20</option>
+              <option value="20-24">Frets 20–24</option>
             </select>
           </div>
           <div class="map-bar" id="map-controls">
@@ -96,7 +100,8 @@
             ><span id="key-notes"></span>
           </div>
         </div>
-        <article class="analysis-card" aria-live="polite" aria-atomic="true">
+        <article class="analysis-card" id="selection-panel" aria-live="polite" aria-atomic="true">
+          <div id="selection-resize" role="separator" tabindex="0" aria-label="Resize selection panel" aria-orientation="vertical" aria-controls="selection-panel" aria-valuemin="220" aria-valuemax="520" aria-valuenow="300" title="Drag to resize. Arrow keys adjust; Home resets."></div>
           <div class="analysis-heading">
             <p class="eyebrow" id="match-label">YOUR SELECTION</p>
             <h2 id="analysis-name">No notes selected</h2>
@@ -153,7 +158,7 @@
               Practice
             </button>
           </div>
-          <span class="workspace-note">Explore. Hear. Keep.</span>
+          <button id="workspace-expand" aria-haspopup="dialog">Expand</button>
         </div>
         <div id="panel-library" class="tool-panel" role="tabpanel" aria-labelledby="tool-library">
           <div class="library-controls">
