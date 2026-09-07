@@ -1,0 +1,456 @@
+{
+  "version": "0.8.0",
+  "kind": "source",
+  "files": [
+    {
+      "path": "index.html",
+      "bytes": 23573,
+      "sha256": "f26777e4a9db4797f322e140d0f55c72a5581f758295750d4fca60d6b728873a"
+    },
+    {
+      "path": "styles.css",
+      "bytes": 41681,
+      "sha256": "5c8690078abd2d90936ab4cb67c37997c875bfcbb40115f9cb2e0e5aaa1f9513"
+    },
+    {
+      "path": "credits.css",
+      "bytes": 403,
+      "sha256": "74919747ab7fbfa253103a62bbcb8837c64dbc8254651d2ae6ea2f3112872621"
+    },
+    {
+      "path": "src/app.js",
+      "bytes": 52752,
+      "sha256": "6284a08f236214ffba64a7e7f155f959a4a3e2b9e26237471d842d6de2e40cdf"
+    },
+    {
+      "path": "src/theory.js",
+      "bytes": 16396,
+      "sha256": "793106da4b6cab5fde945b36f2738fe279df0fcf3bb464376fadb1a7a9dad631"
+    },
+    {
+      "path": "src/library.js",
+      "bytes": 10496,
+      "sha256": "a534463abec05f0423a91571c7e15085c7da1eb9d62b2e6030c57fbe0bfe3515"
+    },
+    {
+      "path": "src/storage.js",
+      "bytes": 10693,
+      "sha256": "21816c97fb72435980be514a9403f8e97449c1652df416c1b7d0501b89bb8998"
+    },
+    {
+      "path": "src/learning.js",
+      "bytes": 5495,
+      "sha256": "cb1999fc4392db28a3f800f9dc3226b67af8ff59bee822117b00f6effaa79f19"
+    },
+    {
+      "path": "src/transport.js",
+      "bytes": 4147,
+      "sha256": "e679e0f01a94e3e1f8a4947ebe8a4d527386dd11eeed261125c0f280ad299e6c"
+    },
+    {
+      "path": "src/samples.js",
+      "bytes": 2635,
+      "sha256": "a68c5ab43edee86c139cb4064874b249bfab14774a74967c8f1e04801945a283"
+    },
+    {
+      "path": "src/rhythm.js",
+      "bytes": 2733,
+      "sha256": "16067efa4f09055819df7870f4804a39506502cbe9fabb52c743bf65511fcac5"
+    },
+    {
+      "path": "src/voicings.js",
+      "bytes": 6288,
+      "sha256": "4cb7c4d95e0d1f16ca32bf7e82c43c81722750168caee153204495e539e711ec"
+    },
+    {
+      "path": "src/songs.js",
+      "bytes": 3595,
+      "sha256": "075559452a6b2d62037017fa47fbf445c4f956df85463a5c428c53c57cbec1dc"
+    },
+    {
+      "path": "src/audio-engine.js",
+      "bytes": 3760,
+      "sha256": "aeedfdd161b849fd988485f7e5649ff9f1a7fb241eb210cde5350c30d0f7af49"
+    },
+    {
+      "path": "src/exports.js",
+      "bytes": 4618,
+      "sha256": "54d8afaa996e9790d8df86cb6e116fc7f87143b92201607199e7210605744abb"
+    },
+    {
+      "path": "src/practice.js",
+      "bytes": 1891,
+      "sha256": "a86c69ec0207f54b168b41401e7e235268520bc1c9b8bb1e467d8af04d549bac"
+    },
+    {
+      "path": "src/studio.js",
+      "bytes": 31281,
+      "sha256": "9131dc74242fd8723fda2d9a75afe7ffb4438d561d4b694522967afc80b939d2"
+    },
+    {
+      "path": "src/arrangement.js",
+      "bytes": 1020,
+      "sha256": "0d0c5f43c96b42f68c5239e5dde18699b83479cd9dcf8963e86c679d4a819b4a"
+    },
+    {
+      "path": "src/fret-path.js",
+      "bytes": 2455,
+      "sha256": "4d2827bc476ec67ecc5d93bea0f4f82da68281547b2f696b57ffb6d1fb3a67a4"
+    },
+    {
+      "path": "src/revision.js",
+      "bytes": 22589,
+      "sha256": "7c4715c01fcf97b6fc645b96c5cf6ec947cc9fdb80aa15246e336c17c54daf2e"
+    },
+    {
+      "path": "src/tunings.js",
+      "bytes": 1339,
+      "sha256": "03410ff29231c7c01ca6b02554bcd290057124b9c524016b76fd3ef665acdbf7"
+    },
+    {
+      "path": "SAMPLE_CREDITS.html",
+      "bytes": 1905,
+      "sha256": "0f8b759ba908ba5138155df8c27f9a3b1baddc0bb3a893b3ebf139612a69f99e"
+    },
+    {
+      "path": "assets/fonts/Manrope.ttf",
+      "bytes": 165420,
+      "sha256": "d0639be45d0af36e798172419d7bd173c4bd4f29e2b76cbb69db1d11bf8b0a40"
+    },
+    {
+      "path": "assets/fonts/OFL.txt",
+      "bytes": 4384,
+      "sha256": "e01b637272e0cbdfb240184dd98ea5cc671556d9894dae2668d92ab2c906787c"
+    },
+    {
+      "path": "assets/guitar/D5.mp3",
+      "bytes": 78282,
+      "sha256": "c9d74d19e672780b7b6e9eb4468b31b5fee6642f20df724198b232f7c78af4f1"
+    },
+    {
+      "path": "assets/electric/E2.mp3",
+      "bytes": 102696,
+      "sha256": "7dd2be5de9d91dcd7f525ef8e1bfc8d77ffc27ac98faeb61e5eea0357ce42b75"
+    },
+    {
+      "path": "assets/electric/A2.mp3",
+      "bytes": 102696,
+      "sha256": "cef8d3fe2cb17c36e4e9a96a002613aac15fe6224ef3d09e91ba23cc3555b910"
+    },
+    {
+      "path": "assets/electric/C3.mp3",
+      "bytes": 102696,
+      "sha256": "4859bcaf12f9bf953bdcdbfbbbac18c86516b3f0566b8ea0a2b195ba7beb09a9"
+    },
+    {
+      "path": "assets/electric/Ds3.mp3",
+      "bytes": 102696,
+      "sha256": "0b6e69576b898eb61460a4b2b32ba4bcd4943a95035ba5794c19abdffc0208a0"
+    },
+    {
+      "path": "assets/electric/Fs3.mp3",
+      "bytes": 102696,
+      "sha256": "c8ac921a460d64d162a79e0c7174ddabec7b7d501ddcf875efe81c84ae160b8e"
+    },
+    {
+      "path": "assets/electric/A3.mp3",
+      "bytes": 102696,
+      "sha256": "b840f271794efc3efcce886d71d1ee57cf6d524b6da1be15b1429f6bc8fe2f45"
+    },
+    {
+      "path": "assets/electric/C4.mp3",
+      "bytes": 102696,
+      "sha256": "b2252b95bbea34faba9d7800c1ab1c819d548d18d0cbada7882395fdc34e2617"
+    },
+    {
+      "path": "assets/electric/Ds4.mp3",
+      "bytes": 102696,
+      "sha256": "0d9d732faa3ec958c9e537a8bcc4421077150362617266636407ee7a93ca11eb"
+    },
+    {
+      "path": "assets/electric/Fs4.mp3",
+      "bytes": 102696,
+      "sha256": "ff8045e8c863e3cad7a6094f32b672893ddc98a00de88460ef114d99f3e7c016"
+    },
+    {
+      "path": "assets/electric/A4.mp3",
+      "bytes": 102696,
+      "sha256": "a817ca1ebdbdc32d0011044c41d906438cc1b0358a0adb6373f2f26d140e5cb2"
+    },
+    {
+      "path": "assets/electric/C5.mp3",
+      "bytes": 102696,
+      "sha256": "6b0671195f6d82b2fdf8afab8d1883554d2c0fb7d99cc935adc609c2816397f3"
+    },
+    {
+      "path": "assets/electric/Ds5.mp3",
+      "bytes": 102696,
+      "sha256": "f8c690e0fa3fd235196673e6ef32a5929534c70bc9eaaa5a7632e39cca263cf4"
+    },
+    {
+      "path": "assets/electric/Fs5.mp3",
+      "bytes": 102696,
+      "sha256": "ded100a22902ef51c6ef634dfcefdedd278b96322f5d7b31dd8d2f400b78d0ba"
+    },
+    {
+      "path": "assets/electric/A5.mp3",
+      "bytes": 102696,
+      "sha256": "19756be9ea1b21ced2d519886a4d812665855b4f0a56509535ecc3bedebeb2c8"
+    },
+    {
+      "path": "assets/electric/C6.mp3",
+      "bytes": 102696,
+      "sha256": "0d170c00a32045de1a7e71ea6c14cfb78cb16cebe7706066b0cf5c4f45797415"
+    },
+    {
+      "path": "assets/guitar/E2.mp3",
+      "bytes": 260448,
+      "sha256": "917820984d1bb0b7712b4f2c42a9694efbb2479ccede45aa78af73811fc6818d"
+    },
+    {
+      "path": "assets/guitar/A2.mp3",
+      "bytes": 276724,
+      "sha256": "43e339bcd75f5f26336be8e1e59b131a0bf06dbf66f588f1c59a8d9faf53613f"
+    },
+    {
+      "path": "assets/guitar/C3.mp3",
+      "bytes": 331812,
+      "sha256": "b9533ea5477879ddb9e1742c29f9084488ef70beee50a6fb44429d5b9a994e99"
+    },
+    {
+      "path": "assets/guitar/E3.mp3",
+      "bytes": 246050,
+      "sha256": "ffd6add4d02e0c9e45af59db231af77274b83602762878a9b1945210ae04bef5"
+    },
+    {
+      "path": "assets/guitar/A3.mp3",
+      "bytes": 105200,
+      "sha256": "025dbfd0aa2be101518bbf4587bbf0d81b96f6f9d01880287af749dc28201551"
+    },
+    {
+      "path": "assets/guitar/C4.mp3",
+      "bytes": 83916,
+      "sha256": "594c98aa8f9d1a426078e91899525f143e0bc82218b7b2c3f4cea2c54c181925"
+    },
+    {
+      "path": "assets/guitar/E4.mp3",
+      "bytes": 109582,
+      "sha256": "3b02f5448695ac92f257ea9e36ba77be1b1b4a08f62a549b95c7ea9f5303ce14"
+    },
+    {
+      "path": "assets/guitar/A4.mp3",
+      "bytes": 97688,
+      "sha256": "1f8263f10e24509d8d0bb82c7dd873bfe7da5354ba0333f23ebfc0f02076361a"
+    },
+    {
+      "path": "assets/guitar/C5.mp3",
+      "bytes": 82664,
+      "sha256": "bed99fde143232c3a33847b82cf3e07c5d5e47b56d584d3d829d01deb9defbab"
+    },
+    {
+      "path": "assets/guitar/LICENSE.md",
+      "bytes": 1161,
+      "sha256": "a98934bef76e4832a20a3dd8e3928cbd6175eba3a651b43256b5f23ce5cfd501"
+    },
+    {
+      "path": "assets/guitar/sample-source-info.txt",
+      "bytes": 699,
+      "sha256": "6c098693e0699ed206b23c17097abe4db18241369e7ced8e7e7c800ce1e86578"
+    },
+    {
+      "path": "assets/electric/LICENSE.md",
+      "bytes": 1161,
+      "sha256": "a98934bef76e4832a20a3dd8e3928cbd6175eba3a651b43256b5f23ce5cfd501"
+    },
+    {
+      "path": "assets/electric/sample-source-info.txt",
+      "bytes": 699,
+      "sha256": "6c098693e0699ed206b23c17097abe4db18241369e7ced8e7e7c800ce1e86578"
+    },
+    {
+      "path": "assets/v6-manifest.json",
+      "bytes": 5120,
+      "sha256": "d1d688d250ad1d50f3a905ee39a5f904bea79fb3b87366781f111d6664cee5fa"
+    },
+    {
+      "path": "src/synth.js",
+      "bytes": 2812,
+      "sha256": "4f4b43ca673e26faac921e1387f64f53974a1109e5bb981b7031335adde40168"
+    },
+    {
+      "path": "README.md",
+      "bytes": 9880,
+      "sha256": "1bd2c1c96ff88c74e2fe804701bea10bea0742eb2d7a549900f89cabe2586c8b"
+    },
+    {
+      "path": "SECURITY.md",
+      "bytes": 2424,
+      "sha256": "1394be38684be56566bae4709873ac06afb9240793d41a7e2a4040641392ec99"
+    },
+    {
+      "path": "FIREBASE_PLAN.md",
+      "bytes": 3298,
+      "sha256": "7052ac4461469e3604b4302a225a18c4868c7771c16b4fc14154c2d39e1d5420"
+    },
+    {
+      "path": "GITHUB_RELEASE_CHECKLIST.md",
+      "bytes": 1041,
+      "sha256": "eb01b692bbf6d7848cda993044a2a6327ac79cbc634f2a4c632807fd06ed9e79"
+    },
+    {
+      "path": ".gitignore",
+      "bytes": 498,
+      "sha256": "ea5fb4fb86ec6ed02ab270f4396e3d383367bc093773acce63862b71ba910ca0"
+    },
+    {
+      "path": "package.json",
+      "bytes": 431,
+      "sha256": "bde3ce9c3d34a8aebc84923192293ae7f4e4b638e6baed85875a6832145899da"
+    },
+    {
+      "path": "firebase.json",
+      "bytes": 857,
+      "sha256": "2bd32c880379b599afae9f7b654093f6cf7391795a79987aff67867aefb4c0fc"
+    },
+    {
+      "path": "docs/guitar-lesson-studio.png",
+      "bytes": 112782,
+      "sha256": "07701b4f92e66fe311a5c1e6b192636339f16878a737a4d718c12a36f33d99e8"
+    },
+    {
+      "path": "Start Guitar Studio.cmd",
+      "bytes": 63,
+      "sha256": "5f535f74e5d431496fa4fd8b64dadb9ca2c21bf84b528a7796bd6c5412ae1983"
+    },
+    {
+      "path": "Start Guitar Lesson Studio.cmd",
+      "bytes": 63,
+      "sha256": "5f535f74e5d431496fa4fd8b64dadb9ca2c21bf84b528a7796bd6c5412ae1983"
+    },
+    {
+      "path": "scripts/server.mjs",
+      "bytes": 2851,
+      "sha256": "d77a4bea84b8b0ecbe56f087069a85f0a663ab6b472e0a386bfac92dc4f45de7"
+    },
+    {
+      "path": "scripts/launch.mjs",
+      "bytes": 2171,
+      "sha256": "3e03669a0deb6f5bc1692ea3dde87cb64b4969f44df661a7668c603f61435c96"
+    },
+    {
+      "path": "scripts/public-files.mjs",
+      "bytes": 866,
+      "sha256": "adfff2bb76cd95f9a4634b5668682b30610897fd6a2b334e1124fecfe1fc0151"
+    },
+    {
+      "path": "scripts/release-files.mjs",
+      "bytes": 1270,
+      "sha256": "fa2f06e24aa67fff3a69b8fd30591c3e1afe094c8111ddb15f4a1a0f86fa0e3d"
+    },
+    {
+      "path": "scripts/build-release.mjs",
+      "bytes": 2411,
+      "sha256": "5cc07dbf4fc9f062ba770361a29f8f6f12ee8773679590325bd04700be82f35a"
+    },
+    {
+      "path": "scripts/audit-release.mjs",
+      "bytes": 3041,
+      "sha256": "42f55b95257bc2dfa8dfcb834894af67a8cec57384d7f874a3c0f250a659a6da"
+    },
+    {
+      "path": "scripts/verify-http.mjs",
+      "bytes": 2424,
+      "sha256": "27e4cad8ea1f4c80f9049f2c94efc18babebca7b8279b90470f9515e6428b946"
+    },
+    {
+      "path": "scripts/verify-browser.mjs",
+      "bytes": 124,
+      "sha256": "805c18b7d2723ae583682d72da1d39cb949c7bed77b9526aab77b4dc3e1232bf"
+    },
+    {
+      "path": "scripts/verify-studio.mjs",
+      "bytes": 117,
+      "sha256": "67eae8182a2af01bd016f41149e8ec759231ebd5aed45a0fe71f12a523e6de83"
+    },
+    {
+      "path": "scripts/verify-v6.mjs",
+      "bytes": 14817,
+      "sha256": "f88fe851c66fd330a6d39ed697b365f37005a6541a8124b92505c3fe39999959"
+    },
+    {
+      "path": "scripts/verify-v6-features.mjs",
+      "bytes": 8665,
+      "sha256": "62aabde1e4f73d1b47bb603a7c15d43f683fc6d2d31128981b805f1846b38596"
+    },
+    {
+      "path": "scripts/verify-v7.mjs",
+      "bytes": 8197,
+      "sha256": "c67799c16ef2e6dd6799e50f6b98a683037176b38cb0c3c3f3141acaa4a615d7"
+    },
+    {
+      "path": "scripts/verify-v8.mjs",
+      "bytes": 8768,
+      "sha256": "d21dcf48d51f9ea468e5335802a35f8dc18ef0db5c87415df4f099b0620d815f"
+    },
+    {
+      "path": "scripts/hash-assets.mjs",
+      "bytes": 800,
+      "sha256": "2233a3ca3b32e2558b97a338845844c82eee9d59f301c5790c825c236e641290"
+    },
+    {
+      "path": "tests/audio.test.mjs",
+      "bytes": 5525,
+      "sha256": "4334fc5f3d463143f86df01f5b9b1325e2e40f242892a1d9e6ce75d2a8a4d15a"
+    },
+    {
+      "path": "tests/learning.test.mjs",
+      "bytes": 3534,
+      "sha256": "36a4a8624ca27977d8b31a32d9fb11511b1d49d3b28971fbe387b6b6f2627b8c"
+    },
+    {
+      "path": "tests/library.test.mjs",
+      "bytes": 1374,
+      "sha256": "b9a76cd0d343d7b3d8850448596e88b95ce5349233e8c5c3354e9491bfeff634"
+    },
+    {
+      "path": "tests/revision.test.mjs",
+      "bytes": 4530,
+      "sha256": "d0c642c9ef3bbd269e24eab5ae7e4c1887e718e8521e19d345649f977794b5c1"
+    },
+    {
+      "path": "tests/samples.test.mjs",
+      "bytes": 2281,
+      "sha256": "04fc7e140d152f3f57539913bc50a8e9823583cc03c4a2938d19a5fac884e83d"
+    },
+    {
+      "path": "tests/storage.test.mjs",
+      "bytes": 4750,
+      "sha256": "20f2ca3001e1aecdd410b0f6969d61e7ed965c9c961c871928320555ea259e74"
+    },
+    {
+      "path": "tests/studio-core.test.mjs",
+      "bytes": 8689,
+      "sha256": "f374d731808af04c109d4f822a9932de7c37297df6dc8fdb52c4b6fe13332579"
+    },
+    {
+      "path": "tests/synth.test.mjs",
+      "bytes": 2866,
+      "sha256": "707c9acbbe2c11ef033613d3b8fc1399529c5c5862d929a9036bacd4450315e3"
+    },
+    {
+      "path": "tests/theory.test.mjs",
+      "bytes": 5231,
+      "sha256": "5f8b5d1a396633222569828ea4e38f2c5de4c3a5ff978097e40d3e78b047393c"
+    },
+    {
+      "path": "tests/transport.test.mjs",
+      "bytes": 4869,
+      "sha256": "193f1f44de7cc5e4031f9ffc8e301111096217fbccb6125fa5772cb91f1c54f9"
+    },
+    {
+      "path": "tests/tunings.test.mjs",
+      "bytes": 6562,
+      "sha256": "6326c54bfbbad39b3fc83b9e39a750dd20098d94e929785bc5bf4972bf3cfd78"
+    }
+  ]
+}

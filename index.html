@@ -1,0 +1,538 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content="Your private guitar fretboard, chord library and musical notebook." />
+    <title>Guitar Lesson Studio</title>
+    <link rel="icon" href="data:," />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <header class="topbar">
+      <div class="brand">
+        <div>
+          <h1>Guitar Lesson Studio</h1>
+          <p>Guitar Lesson Studio</p>
+        </div>
+      </div>
+      <div class="header-controls">
+        <label>Tuning<select id="tuning-select" aria-label="Guitar tuning"></select></label>
+        <label
+          >Capo
+          <select id="capo-select" aria-label="Capo fret">
+            <option value="0">None</option>
+          </select></label
+        ><label
+          >Spelling
+          <select id="spelling-select" aria-label="Note spelling">
+            <option value="sharp">♯</option>
+            <option value="flat">♭</option>
+          </select></label
+        ><label
+          >Sound
+          <select id="sound">
+            <option value="acoustic">Acoustic</option>
+            <option value="electric">Clean electric</option>
+          </select></label
+        ><button id="studio-settings" aria-label="Studio settings">Settings</button
+        ><button id="undo" title="Undo the last change (Ctrl/Cmd+Z)" disabled>Undo</button
+        ><button id="redo" title="Redo the last undone change (Ctrl/Cmd+Shift+Z)" disabled>Redo</button>
+      </div>
+    </header>
+    <main>
+      <section class="instrument" aria-label="Guitar workbench">
+        <div class="fretboard-panel">
+          <div class="section-heading">
+            <h2>Fretboard <span id="orientation-label">high e on bottom</span></h2>
+            <div class="actions">
+              <button id="scale-menu" aria-controls="map-controls" aria-expanded="false">Scales</button
+              ><button id="flip-neck" title="Reverse the displayed string order">Flip</button
+              ><button id="clear-shape">Clear</button><button id="hear-notes">Notes ♪</button
+              ><button id="hear-chord" class="primary">Chord ♪</button
+              ><button id="stop-audio" disabled title="Ends all audio and loops. Your work stays saved.">
+                Stop sound
+              </button>
+            </div>
+          </div>
+          <div class="fretboard-wrap">
+            <div
+              id="fretboard"
+              class="fretboard"
+              role="group"
+              aria-label="Interactive guitar fretboard"
+            ></div>
+          </div>
+          <div class="neck-caption">
+            <span id="capo-readout"></span
+            ><select
+              id="fret-range"
+              aria-label="Visible fretboard range"
+              title="Zoom to a fret range without changing your grip"
+            >
+              <option value="all">All frets</option>
+              <option value="0-4">Frets 0–4</option>
+              <option value="4-8">Frets 4–8</option>
+              <option value="8-12">Frets 8–12</option>
+            </select>
+          </div>
+          <div class="map-bar" id="map-controls">
+            <label
+              >Scale
+              <select id="key-root" aria-label="Scale root"></select></label
+            ><select id="scale-type" aria-label="Scale pattern">
+              <option value="major">Major</option>
+              <option value="naturalMinor">Natural minor</option>
+              <option value="majorPentatonic">Major pentatonic</option>
+              <option value="minorPentatonic">Minor pentatonic</option>
+              <option value="blues">Blues</option></select
+            ><button id="toggle-map" aria-pressed="false">Show map</button
+            ><label
+              >Labels
+              <select id="labels-mode">
+                <option value="notes">Note names</option>
+                <option value="degrees">Chord degrees</option>
+              </select></label
+            ><span id="key-notes"></span>
+          </div>
+        </div>
+        <article class="analysis-card" aria-live="polite" aria-atomic="true">
+          <div class="analysis-heading">
+            <p class="eyebrow" id="match-label">YOUR SELECTION</p>
+            <h2 id="analysis-name">No notes selected</h2>
+            <p id="shape-sound-label"></p>
+          </div>
+          <dl class="analysis-details">
+            <div>
+              <dt title="Frets read from bass to treble">Grip</dt>
+              <dd id="shape-code"></dd>
+            </div>
+            <div>
+              <dt>Notes</dt>
+              <dd id="note-list"></dd>
+            </div>
+            <div>
+              <dt>Degrees</dt>
+              <dd id="interval-list"></dd>
+            </div>
+          </dl>
+          <p id="analysis-explanation"></p>
+          <div class="actions">
+            <button id="save-shape">Save shape</button><button id="add-tab">+ Sequence</button>
+          </div>
+        </article>
+      </section>
+      <section class="workspace" aria-label="Learning tools">
+        <div class="workspace-heading">
+          <div class="workspace-tabs" role="tablist" aria-label="Learning tools">
+            <button role="tab" id="tool-library" aria-controls="panel-library" aria-selected="true">
+              Library</button
+            ><button
+              role="tab"
+              id="tool-saved"
+              aria-controls="panel-saved"
+              aria-selected="false"
+              tabindex="-1"
+            >
+              Notebook <span id="saved-count">0</span></button
+            ><button
+              role="tab"
+              id="tool-sequence"
+              aria-controls="panel-sequence"
+              aria-selected="false"
+              tabindex="-1"
+            >
+              Sequence <span id="tab-count">0</span></button
+            ><button
+              role="tab"
+              id="tool-practice"
+              aria-controls="panel-practice"
+              aria-selected="false"
+              tabindex="-1"
+            >
+              Practice
+            </button>
+          </div>
+          <span class="workspace-note">Explore. Hear. Keep.</span>
+        </div>
+        <div id="panel-library" class="tool-panel" role="tabpanel" aria-labelledby="tool-library">
+          <div class="library-controls">
+            <select id="library-view" aria-label="Library view">
+              <option value="shapes">Shapes</option>
+              <option value="family">Key family</option>
+              <option value="triads">Triads</option>
+              <option value="finder">Chord finder</option></select
+            ><input
+              id="library-search"
+              type="search"
+              aria-label="Search chord library"
+              placeholder="Find a chord…"
+            /><select id="library-category" aria-label="Shape category">
+              <option value="all">All shapes</option>
+            </select>
+            <div id="learning-controls" class="context-controls" hidden>
+              <select id="learning-root" aria-label="Sounding root"></select
+              ><select id="family-mode" aria-label="Key mode">
+                <option value="major">Major</option>
+                <option value="naturalMinor">Natural minor</option></select
+              ><select id="finder-quality" aria-label="Chord quality" hidden></select
+              ><label id="finder-open-label" hidden
+                ><input type="checkbox" id="finder-open" />Open grips</label
+              ><select id="triad-quality" aria-label="Triad quality" hidden>
+                <option value="major">Major</option>
+                <option value="minor">Minor</option></select
+              ><select id="triad-strings" aria-label="Triad strings" hidden>
+                <option value="3">G · B · e</option>
+                <option value="2">D · G · B</option>
+                <option value="1">A · D · G</option>
+                <option value="0">E · A · D</option></select
+              ><select id="triad-inversion" aria-label="Triad inversion" hidden>
+                <option value="all">All inversions</option>
+                <option value="0">Root position</option>
+                <option value="1">1st inversion</option>
+                <option value="2">2nd inversion</option></select
+              ><button id="nearest-triad" hidden>Nearest grip</button>
+            </div>
+            <span id="library-count"></span>
+            <div class="pagination">
+              <button id="library-prev" aria-label="Previous shapes">←</button><span id="library-page"></span
+              ><button id="library-next" aria-label="Next shapes">→</button>
+            </div>
+          </div>
+          <div id="library-cards" class="card-grid"></div>
+          <p id="library-tip" class="hint">
+            Diagrams read low E → high e. Numbers show frets relative to the capo. Select a card to try it.
+          </p>
+        </div>
+        <div id="panel-saved" class="tool-panel" role="tabpanel" aria-labelledby="tool-saved" hidden>
+          <div class="notebook-toolbar">
+            <input
+              id="shape-title"
+              maxlength="80"
+              aria-label="Shape title"
+              placeholder="Name this discovery"
+            /><input
+              id="shape-note"
+              maxlength="500"
+              aria-label="Personal note"
+              placeholder="A note to your future self"
+            /><button id="save-note" class="primary">Save current</button
+            ><button id="cancel-edit" hidden>Cancel edit</button><button id="export-data">Export</button
+            ><label class="file-button"
+              >Import<input id="import-data" type="file" accept="application/json"
+            /></label>
+          </div>
+          <div class="notebook-tools">
+            <input
+              type="search"
+              id="notebook-search"
+              aria-label="Search notebook"
+              placeholder="Search your notebook…"
+            /><button id="study-sheet">Study sheet</button><button id="recall-start">Recall practice</button>
+          </div>
+          <div id="saved-cards" class="saved-list"></div>
+          <p class="hint">
+            Saved in this browser. Export for safekeeping. Import merges saved shapes and appends different
+            sequences.
+          </p>
+        </div>
+        <div id="panel-sequence" class="tool-panel" role="tabpanel" aria-labelledby="tool-sequence" hidden>
+          <div class="sequence-titlebar">
+            <input
+              id="song-title"
+              aria-label="Sequence title"
+              maxlength="80"
+              placeholder="Name this sequence…"
+            /><span id="song-save-state" class="hint"></span><button id="save-song">Save song</button
+            ><button id="songbook-open">Songbook <span id="song-count">0</span></button
+            ><button id="progressions-open">Progressions</button
+            ><button id="sequence-tools">Tools & export</button>
+          </div>
+          <div class="sequence-toolbar">
+            <button id="play-tab" class="primary">Play sequence ♪</button
+            ><button id="stage-open">Playing view</button
+            ><label
+              >Tempo
+              <input
+                id="tempo"
+                type="number"
+                min="40"
+                max="180"
+                step="1"
+                aria-label="Tempo in beats per minute"
+              />
+              BPM</label
+            ><select id="rhythm" aria-label="Sequence rhythm"></select
+            ><label><input type="checkbox" id="repeat" />Repeat</label
+            ><label><input type="checkbox" id="count-in" />Count in</label
+            ><label><input type="checkbox" id="metronome" />Metronome</label
+            ><span id="sequence-position" class="hint" aria-live="off"></span>
+          </div>
+          <div id="sequence-steps" class="sequence-steps"></div>
+        </div>
+        <div id="panel-practice" class="tool-panel" role="tabpanel" aria-labelledby="tool-practice" hidden>
+          <div class="practice-options">
+            <article class="practice-tile">
+              <span class="practice-number">01</span>
+              <h3>Find the note</h3>
+              <p>Connect a note name to its place on the neck.</p>
+              <button id="practice-find" class="primary">Find notes</button>
+            </article>
+            <article class="practice-tile">
+              <span class="practice-number">02</span>
+              <h3>Name the note</h3>
+              <p>Read a fretboard position and name its pitch.</p>
+              <button id="practice-name" class="primary">Name notes</button>
+            </article>
+            <article class="practice-tile">
+              <span class="practice-number">03</span>
+              <h3>Train your ear</h3>
+              <p>Hear two pitches and recognize their interval.</p>
+              <button id="practice-ear" class="primary">Hear intervals</button>
+            </article>
+          </div>
+          <p class="hint">
+            Short, ten-question sessions. Choose a range, practice at your pace, and review any missed
+            answers.
+          </p>
+        </div>
+      </section>
+    </main>
+    <footer>
+      <span></span>
+      <p id="status" role="status">Ready. Select a shape to begin.</p>
+    </footer>
+    <dialog id="backup-dialog" aria-labelledby="backup-heading">
+      <div class="section-heading">
+        <h2 id="backup-heading">Studio backup</h2>
+        <button id="close-backup">Close</button>
+      </div>
+      <p class="hint">
+        Download a file, or copy the JSON below to keep a backup when downloads are unavailable.
+      </p>
+      <textarea id="backup-json" aria-label="Backup JSON" spellcheck="false"></textarea>
+      <div class="actions">
+        <button id="download-backup" class="primary">Download JSON</button
+        ><button id="copy-backup">Copy JSON</button><button id="merge-json">Merge this JSON</button>
+      </div>
+      <p id="backup-status" role="status" class="hint"></p>
+      <button id="confirm-backup" disabled>I saved this backup</button>
+      <p class="hint">
+        Confirm only after checking that your downloaded or copied file is saved. The browser cannot verify
+        that for you.
+      </p>
+    </dialog>
+    <dialog id="study-dialog" aria-labelledby="study-heading">
+      <div class="section-heading no-print">
+        <h2 id="study-heading">Study sheet</h2>
+        <div class="actions">
+          <button id="print-sheet" class="primary">Print</button><button id="close-study">Close</button>
+        </div>
+      </div>
+      <div id="study-content"></div>
+    </dialog>
+    <dialog id="recall-dialog" aria-labelledby="recall-heading">
+      <div class="section-heading">
+        <h2 id="recall-heading">Recall practice</h2>
+        <button id="recall-end">End</button>
+      </div>
+      <p id="recall-progress"></p>
+      <div id="recall-card"></div>
+      <div class="actions">
+        <button id="recall-reveal" class="primary">Reveal answer</button
+        ><button id="recall-again" hidden>Again</button><button id="recall-known" hidden>Got it</button>
+      </div>
+      <p class="hint">Name the sounding chord, then check your answer. Your notebook stays unchanged.</p>
+    </dialog>
+    <dialog id="settings-dialog" aria-labelledby="settings-heading">
+      <div class="section-heading">
+        <h2 id="settings-heading">Sound & studio</h2>
+        <button id="settings-close">Close</button>
+      </div>
+      <div class="settings-grid">
+        <label
+          >Volume <input id="volume" type="range" min="0" max="100" step="1" /><output
+            id="volume-value"
+          ></output></label
+        ><label
+          >Tone
+          <select id="tone">
+            <option value="warm">Warm</option>
+            <option value="balanced">Balanced</option>
+            <option value="bright">Bright</option>
+          </select></label
+        ><button id="fullscreen">Full screen</button>
+      </div>
+      <fieldset class="practice-speed">
+        <legend>Practice speed</legend>
+        <label><input id="ramp-enabled" type="checkbox" />Gradually increase speed on repeats</label>
+        <div class="settings-grid">
+          <label
+            >Increase by<select id="ramp-increment">
+              <option value="1">1 BPM</option>
+              <option value="2">2 BPM</option>
+              <option value="5">5 BPM</option>
+              <option value="10">10 BPM</option>
+            </select></label
+          >
+          <label
+            >Every<select id="ramp-every">
+              <option value="1">1 full pass</option>
+              <option value="2">2 full passes</option>
+              <option value="4">4 full passes</option>
+              <option value="8">8 full passes</option>
+            </select></label
+          >
+          <label>Target BPM<input id="ramp-target" type="number" min="40" max="180" value="120" /></label>
+        </div>
+        <p class="hint">
+          Applies to repeated sequences, looped passages and repeated scales or arpeggios. Each run starts at
+          its chosen tempo; exports keep the song tempo. A target below the starting tempo leaves the speed
+          unchanged.
+        </p>
+      </fieldset>
+      <section class="backup-settings" aria-label="Music backup">
+        <button id="settings-backup" class="primary">Back up my music</button>
+        <p id="last-backup" class="hint"></p>
+      </section>
+      <div class="help-copy">
+        <p>Open <strong>Guide</strong> in the top bar for examples, shortcuts and sound credits.</p>
+      </div>
+    </dialog>
+    <dialog id="songbook-dialog" aria-labelledby="songbook-heading">
+      <div class="section-heading">
+        <h2 id="songbook-heading">Your songbook</h2>
+        <button id="songbook-close">Close</button>
+      </div>
+      <input id="song-search" type="search" aria-label="Search songbook" placeholder="Find a song…" />
+      <div id="song-list" class="song-list"></div>
+    </dialog>
+    <dialog id="progressions-dialog" aria-labelledby="progressions-heading">
+      <div class="section-heading">
+        <h2 id="progressions-heading">Build a progression</h2>
+        <button id="progressions-close">Close</button>
+      </div>
+      <div class="context-controls">
+        <label
+          >Sounding key
+          <select id="progression-key"></select></label
+        ><label
+          >Capo
+          <select id="progression-capo"></select
+        ></label>
+      </div>
+      <div id="progression-list" class="progression-list"></div>
+      <p class="hint">
+        Loads a new working sequence. Saved songs stay in your songbook, and Undo restores the previous draft.
+      </p>
+    </dialog>
+    <dialog id="sequence-tools-dialog" aria-labelledby="sequence-tools-heading">
+      <div class="section-heading">
+        <h2 id="sequence-tools-heading">Sequence tools</h2>
+        <button id="sequence-tools-close">Close</button>
+      </div>
+      <label
+        >Notes <textarea id="song-note" maxlength="500" placeholder="What are you practicing?"></textarea>
+      </label>
+      <div class="actions">
+        <button id="song-save-copy">Save a new copy</button><button id="add-rest">+ One-beat rest</button
+        ><button id="capo-lab-open">Find an easier capo</button
+        ><button id="transpose-down">Transpose −1</button><button id="transpose-up">Transpose +1</button
+        ><button id="clear-tab">Clear sequence</button>
+      </div>
+      <p id="sequence-key-hint" class="hint"></p>
+      <div id="tab-display" class="tab-display" aria-label="Six line guitar tablature"></div>
+      <div class="actions">
+        <button id="export-midi">Export MIDI</button><button id="export-wav">Export WAV</button
+        ><button id="export-tab">Export tab</button><button id="copy-tab">Copy tab</button>
+      </div>
+      <p id="export-status" class="hint" role="status">
+        Exports one pass with the selected rhythm. Repeat and metronome are for practice only.
+      </p>
+    </dialog>
+    <dialog id="capo-lab-dialog" aria-labelledby="capo-lab-heading">
+      <div class="section-heading">
+        <h2 id="capo-lab-heading">Find an easier capo</h2>
+        <button id="capo-lab-close">Close</button>
+      </div>
+      <label
+        >Compare
+        <select id="capo-lab-scope">
+          <option value="sequence">Working sequence</option>
+          <option value="grip">Current grip</option>
+        </select></label
+      >
+      <p class="hint">
+        Keep the sounding harmony and bass pitch class; compare compact grips. Octaves may change. Comfort
+        depends on your hand.
+      </p>
+      <div id="capo-results"></div>
+    </dialog>
+    <dialog id="step-dialog" aria-labelledby="step-heading">
+      <div class="section-heading">
+        <h2 id="step-heading">Edit step</h2>
+        <button id="step-close">Close</button>
+      </div>
+      <div id="step-editor"></div>
+    </dialog>
+    <dialog id="stage-dialog" aria-labelledby="stage-title">
+      <div class="stage-top">
+        <div>
+          <p class="eyebrow">PLAYING VIEW</p>
+          <h2 id="stage-title"></h2>
+        </div>
+        <button id="stage-close">Close</button>
+      </div>
+      <div class="stage-overview">
+        <div>
+          <p class="eyebrow" id="stage-position"></p>
+          <h3 id="stage-chord"></h3>
+          <p id="stage-detail"></p>
+        </div>
+        <div class="stage-next">
+          <p class="eyebrow">UP NEXT</p>
+          <h3 id="stage-next-chord"></h3>
+          <p id="stage-next-detail"></p>
+        </div>
+      </div>
+      <div id="stage-neck"></div>
+      <div class="beat-lights" id="stage-beats" aria-label="Four-beat pulse"></div>
+      <div class="stage-transport">
+        <button id="stage-play" class="primary">Play ♪</button
+        ><button id="stage-stop" disabled title="Ends audio without clearing your work">Stop sound</button
+        ><button id="stage-prev">← Previous</button><button id="stage-next">Next →</button
+        ><span id="stage-settings"></span>
+      </div>
+      <p class="hint">
+        The neck follows the playing chord. Your original selection and saved song stay unchanged.
+      </p>
+    </dialog>
+    <dialog id="exercise-dialog" aria-labelledby="exercise-heading">
+      <div class="section-heading">
+        <h2 id="exercise-heading">Fretboard practice</h2>
+        <button id="exercise-close">End</button>
+      </div>
+      <div id="exercise-setup" class="context-controls">
+        <label
+          >Range
+          <select id="exercise-range">
+            <option value="5">Frets 0–5</option>
+            <option value="12">Frets 0–12</option>
+          </select></label
+        ><label><input type="checkbox" id="exercise-naturals" checked />Natural notes only</label
+        ><button id="exercise-start" class="primary">Start 10 questions</button>
+      </div>
+      <p id="exercise-progress" class="hint"></p>
+      <h3 id="exercise-prompt"></h3>
+      <div id="exercise-board"></div>
+      <button id="exercise-listen" hidden>Hear interval ♪</button>
+      <div id="exercise-answers" class="exercise-answers"></div>
+      <p id="exercise-feedback" role="status"></p>
+      <div class="actions">
+        <button id="exercise-reveal" hidden>Show answer</button
+        ><button id="exercise-next" hidden>Next question</button>
+      </div>
+    </dialog>
+    <script type="module" src="src/app.js"></script>
+  </body>
+</html>

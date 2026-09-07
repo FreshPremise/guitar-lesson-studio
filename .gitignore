@@ -1,0 +1,27 @@
+# Local development, private work and generated evidence
+node_modules/
+.tool-cache/
+revisions/
+verification/
+*.log
+.env
+.env.*
+!.env.example
+*.local
+WHERE_WE_LEFT_OFF.md
+PROJECT_PROPOSAL.md
+CURRENT_PLAN.md
+NEXT_VERSION_PLAN.md
+NEXT_REVISION_PROPOSAL.md
+VERIFICATION.md
+mockups/
+# Review any JSON export or recording before adding it; never commit personal notebooks.
+assets/guitar/SHA256.json
+dist/
+release/
+.firebase/
+.firebaserc
+firebase-debug.log*
+.edit-*.py
+.fix-*.py
+SECURITY_REVIEW_LOCAL.md

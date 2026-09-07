@@ -1,0 +1,16 @@
+{
+  "name": "guitar-lesson-studio",
+  "version": "0.8.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "start": "node scripts/server.mjs",
+    "test": "node --test tests/*.test.mjs",
+    "build": "node scripts/build-release.mjs hosting",
+    "release:candidate": "node scripts/build-release.mjs source",
+    "audit:release": "node scripts/audit-release.mjs"
+  },
+  "engines": {
+    "node": ">=22"
+  }
+}
