@@ -2,7 +2,6 @@
 export const PUBLIC_FILES = Object.freeze([
   'index.html',
   'styles.css',
-  'credits.css',
   'src/app.js',
   'src/theory.js',
   'src/library.js',
@@ -23,7 +22,6 @@ export const PUBLIC_FILES = Object.freeze([
     'revision',
     'tunings',
   ].map((n) => `src/${n}.js`),
-  'SAMPLE_CREDITS.html',
   'assets/fonts/Manrope.ttf',
   'assets/fonts/OFL.txt',
   'assets/guitar/D5.mp3',

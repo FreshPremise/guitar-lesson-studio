@@ -7,7 +7,6 @@ let count = 0;
 for (const path of [
   '/',
   '/styles.css',
-  '/credits.css',
   '/assets/fonts/Manrope.ttf',
   '/assets/fonts/OFL.txt',
   '/assets/guitar/D5.mp3',
@@ -26,7 +25,6 @@ for (const path of [
   ...['rhythm', 'voicings', 'songs', 'audio-engine', 'exports', 'practice', 'studio'].map(
     (n) => `/src/${n}.js`,
   ),
-  '/SAMPLE_CREDITS.html',
   ...['E2', 'A2', 'C3', 'E3', 'A3', 'C4', 'E4', 'A4', 'C5'].map((n) => `/assets/guitar/${n}.mp3`),
 ]) {
   const r = await fetch(base + path);
@@ -38,6 +36,8 @@ for (const path of [
   count++;
 }
 for (const path of [
+  '/credits.css',
+  '/SAMPLE_CREDITS.html',
   '/README.md',
   '/WHERE_WE_LEFT_OFF.md',
   '/tests/storage.test.mjs',

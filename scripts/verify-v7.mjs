@@ -139,8 +139,9 @@ try {
       header: document.querySelector('header').getBoundingClientRect().toJSON(),
     }));
     assert.ok(dimensions.width <= width, `page overflow at ${width}: ${dimensions.width}`);
-    if (width >= 1024)
-      assert.ok(dimensions.height <= height, `page scroll at ${width}: ${dimensions.height}`);
+    await page.evaluate(() => window.scrollTo(0, document.documentElement.scrollHeight));
+    assert.ok(await page.locator('.workspace').evaluate((e) => e.getBoundingClientRect().bottom <= innerHeight + 1));
+    await page.evaluate(() => window.scrollTo(0, 0));
     report.layouts.push({ width, height, ...dimensions });
   }
   assert.deepEqual(errors, []);

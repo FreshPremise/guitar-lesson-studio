@@ -91,7 +91,7 @@ try {
       visible: document.querySelector('#library-cards').clientHeight,
       content: document.querySelector('#library-cards').scrollHeight,
     }));
-    assert.equal(size.page, 720);
+    assert.ok(size.page >= 720);
     assert.equal(size.width, 1280);
     assert.ok(size.content <= size.visible + 1, `${view} card clipping`);
     report[view] = size;

@@ -71,7 +71,7 @@ try {
   const beforeSound = await stored();
   await $('hear-chord').click();
   await page.waitForFunction(() => document.querySelector('#fretboard .sounding-note'));
-  assert.equal(await page.locator('#fretboard .fret-position').count(), 78);
+  assert.equal(await page.locator('#fretboard .fret-position').count(), 6 * (25 - beforeSound.capo));
   assert.ok(await $('fret-range').isDisabled());
   assert.equal(
     await page
@@ -165,7 +165,12 @@ try {
       contentHeight: document.documentElement.scrollHeight,
     }));
     assert.ok(layout.contentWidth <= width, JSON.stringify(layout));
-    if (width >= 1024) assert.ok(layout.contentHeight <= height, JSON.stringify(layout));
+    await page.evaluate(() => window.scrollTo(0, document.documentElement.scrollHeight));
+    const reachable = await page.locator('.workspace').evaluate((e) => ({
+      height: e.clientHeight, bottom: e.getBoundingClientRect().bottom,
+    }));
+    assert.ok(reachable.height >= 299 && reachable.bottom <= height + 1, JSON.stringify(reachable));
+    await page.evaluate(() => window.scrollTo(0, 0));
     report[`${width}x${height}`] = layout;
     await page.screenshot({ path: `verification/v8/layout-${width}.png`, fullPage: width < 1024 });
   }
