@@ -129,3 +129,20 @@ test('MIDI uses low D and text tab preserves tuning changes and expanded repeats
   assert.ok(tab.includes('Step     1    2'));
   assert.ok(tab.includes('Step     3'));
 });
+
+test('upper-neck grips round-trip and stay within a 24-fret physical neck', () => {
+  const upper = validateState({...defaultState(), shape:[24,22,21,19,20,24], fretRange:'20-24'});
+  assert.deepEqual(parseBackup(serializeBackup(upper)).shape, upper.shape);
+  assert.equal(stringStateToMidi(5,24),88);
+  assert.ok(encodeMidi([{shape:upper.shape,capo:0,tuning:'standard',beats:1}],{tempo:90}).length > 20);
+  assert.throws(()=>validateState({...upper,capo:1}), /physical fret 24/);
+  assert.throws(()=>validateState({...upper,shape:[25,'x','x','x','x','x']}), /invalid fingering/);
+  for (const {id:tuning} of TUNINGS) for (const capo of [0,5,12]) {
+    const state={...defaultState(),tuning,capo};
+    const path=scalePath(state,0,24,'six-strings');
+    assert.equal(new Set(path.map(p=>p.index)).size,6);
+    assert.ok(path.every(p=>p.fret+capo<=24));
+    assert.ok(path.every(p=>sampleMapping(p.midi,'acoustic') && sampleMapping(p.midi,'electric')));
+  }
+  assert.throws(()=>scalePath({...defaultState(),capo:12},20,24), /physical fret 24/);
+});
