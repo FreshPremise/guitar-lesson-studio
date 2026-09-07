@@ -9,11 +9,10 @@ Guitar Lesson Studio runs its music tools in the browser. No runtime package dep
 - Downloads and clipboard actions are explicit. Keep personal exports out of public repositories.
 - Audio/fonts load from the app's origin. Credit links visit external sites only when followed.
 - The local server binds to loopback, serves an explicit file list and rejects unknown hosts and unsupported methods. It is not a production internet server.
-- Firebase serves generated `dist/` files. Hosting receives normal network requests; saved music does not become cloud-synchronized.
 
 ## Release review
 
-Separate source/hosting file lists exclude local notes, logs, backups, cached tools, repository metadata and snapshots. The README screenshot uses synthetic demonstration data in an isolated browser.
+Explicit source and browser-asset file lists exclude local notes, logs, backups, cached tools, repository metadata and snapshots. The README screenshot uses synthetic demonstration data in an isolated browser.
 
 `npm run audit:release` checks file membership, hashes and credential/home-path/backup patterns. This supplements source and screenshot review; it does not prove arbitrary future content safe. Rebuild and review after changes.
 

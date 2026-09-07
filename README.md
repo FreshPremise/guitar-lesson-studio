@@ -79,7 +79,7 @@ Keyboard: arrows navigate the neck; Enter selects; Escape stops sound/closes a d
 
 The draft, notebook and songbook are saved in browser local storage. **Settings → Back up my music → Download JSON** creates a complete backup; **Notebook → Export** opens the same window. After checking your saved file, choose **I saved this backup**. Settings shows the last date you confirmed in this browser; requesting a download alone does not count as a confirmed backup. That date stays separate from your music and is not imported or exported. Restore with **Import**, or paste a backup into the Export window and choose **Merge this JSON**. Existing records are kept; Undo can reverse an import.
 
-Back up before changing browser, device or site address. The local app and a future Firebase copy have **separate storage**; transfer music with JSON export/import. Concurrent tabs detect conflicting edits and pause editing until reload.
+Back up before changing browser, device or site address. Each browser profile and site address has **separate storage**; transfer music with JSON export/import. Concurrent tabs detect conflicting edits and pause editing until reload.
 
 New backups use schema 5; versions 1–4 are accepted with Standard tuning. Older storage keys are retained. Clearing browser data can remove saved music. There is no cloud synchronization.
 
@@ -91,7 +91,7 @@ New backups use schema 5; versions 1–4 are accepted with Standard tuning. Olde
 - Audio uses bundled recordings with pitch transposition. High acoustic notes can sound thinner. No microphone recording, automatic tuning, physical-playing assessment or AI teacher is included.
 - Desktop layouts keep the main workbench on screen. Long lists scroll inside panels; phones, browser zoom and short windows may need scrolling to keep text readable.
 
-## Development and hosting
+## Development
 
 ```sh
 npm test                  # Music, storage, timing and export tests
@@ -104,7 +104,7 @@ The build commands replace their generated folders. Keep personal files elsewher
 
 Browser checks use Playwright and a separate muted Edge profile. Install it as a development tool (`npm install --no-save playwright`), start the app, then run `node scripts/verify-v6.mjs`, `node scripts/verify-v6-features.mjs`, `node scripts/verify-v7.mjs` and `node scripts/verify-v8.mjs`. Override `PLAYWRIGHT_PATH` or `BROWSER_PATH` if needed. `node scripts/verify-http.mjs` checks the server boundaries.
 
-See the [Firebase plan](FIREBASE_PLAN.md), [security and privacy notes](SECURITY.md) and [release checklist](GITHUB_RELEASE_CHECKLIST.md). Firebase deployment is not automatic; its configuration serves only generated `dist/` content.
+See the [security and privacy notes](SECURITY.md) and [release checklist](GITHUB_RELEASE_CHECKLIST.md). These commands prepare local files only; they do not publish the application.
 
 ## Credits and licensing
 

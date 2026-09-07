@@ -94,8 +94,8 @@
     },
     {
       "path": "src/revision.js",
-      "bytes": 28780,
-      "sha256": "d08cd558060ee36ec728e86d32b73024497b308becbd526b7f7685f99ad02e0c"
+      "bytes": 28738,
+      "sha256": "ae33dcb0385811d8fae9a59948d37aa5d77cf65e3c9cf60935fb1f0fa508610c"
     },
     {
       "path": "src/tunings.js",
@@ -269,38 +269,28 @@
     },
     {
       "path": "README.md",
-      "bytes": 10814,
-      "sha256": "3007259d75c98cd1ef8cd9b065c2f32fd18f62f486a332c72b3adddb86666d8e"
+      "bytes": 10743,
+      "sha256": "a3b1046e83c3dde3b4bd6df90f233361162d18bb2ef844ebc0155bab5d7cdd3e"
     },
     {
       "path": "SECURITY.md",
-      "bytes": 2424,
-      "sha256": "1394be38684be56566bae4709873ac06afb9240793d41a7e2a4040641392ec99"
-    },
-    {
-      "path": "FIREBASE_PLAN.md",
-      "bytes": 5296,
-      "sha256": "4b7d3d9fe596f13d1b33da6ee316d158ff7fe8e186d1977d3efdd1994ab62978"
+      "bytes": 2301,
+      "sha256": "1f3a9f278f8c3c9d85c65fe86c989bb2bfb41e54cc0a59f065af278697d1754c"
     },
     {
       "path": "GITHUB_RELEASE_CHECKLIST.md",
-      "bytes": 1219,
-      "sha256": "659b29553b3199788e258e717605b7f3606964073cf790767326a1e2c48a1095"
+      "bytes": 1097,
+      "sha256": "d65796d6eaa41519e5f1833cf46b65432eca351cd627e4c69fa1e4f3f51ae025"
     },
     {
       "path": ".gitignore",
-      "bytes": 498,
-      "sha256": "ea5fb4fb86ec6ed02ab270f4396e3d383367bc093773acce63862b71ba910ca0"
+      "bytes": 474,
+      "sha256": "5bf558c59cbc3422ea12fc21cb941d54ff061f6b91e8cd3cffac084f0ef993c3"
     },
     {
       "path": "package.json",
-      "bytes": 432,
-      "sha256": "efe1eb8d59e57b1ea4bbf334b65bc45d6f0f1c172da9f2bdf0bf6c7abf775c66"
-    },
-    {
-      "path": "firebase.json",
-      "bytes": 857,
-      "sha256": "2bd32c880379b599afae9f7b654093f6cf7391795a79987aff67867aefb4c0fc"
+      "bytes": 431,
+      "sha256": "193a8c666de1d58d813337e7520e50691ff13a7eb49e8579ac6192c04ab45bbc"
     },
     {
       "path": "docs/guitar-lesson-studio.png",
@@ -334,18 +324,18 @@
     },
     {
       "path": "scripts/release-files.mjs",
-      "bytes": 1270,
-      "sha256": "fa2f06e24aa67fff3a69b8fd30591c3e1afe094c8111ddb15f4a1a0f86fa0e3d"
+      "bytes": 1225,
+      "sha256": "5985d22a947d26f27314d177756a4cb86f0dc463fc9010eced5e25feeec69005"
     },
     {
       "path": "scripts/build-release.mjs",
-      "bytes": 3923,
-      "sha256": "87ce6e6ee19d81c40ae98db8654199468982abc13ee9e9253066bfa0795f1295"
+      "bytes": 2460,
+      "sha256": "8b72c5e17780bf8888cb0607debd05bf526bfa7840be7bb6e0f65b003673acaa"
     },
     {
       "path": "scripts/audit-release.mjs",
       "bytes": 3041,
-      "sha256": "42f55b95257bc2dfa8dfcb834894af67a8cec57384d7f874a3c0f250a659a6da"
+      "sha256": "ded0b4ac34f2cd5d5628a75c47945addf77694ec81c62ab9430a38e52e23a5f5"
     },
     {
       "path": "scripts/verify-http.mjs",

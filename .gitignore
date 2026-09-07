@@ -19,9 +19,8 @@ mockups/
 assets/guitar/SHA256.json
 dist/
 release/
-.firebase/
-.firebaserc
-firebase-debug.log*
+/.*/
+private-demo/
 .edit-*.py
 .fix-*.py
 SECURITY_REVIEW_LOCAL.md
