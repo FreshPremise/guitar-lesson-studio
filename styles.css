@@ -1886,6 +1886,9 @@ button.primary {
 .header-controls {
   gap: 10px;
 }
+.header-controls button {
+  font-weight: 600;
+}
 .fretboard-panel,
 .analysis-card,
 .workspace {
