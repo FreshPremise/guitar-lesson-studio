@@ -30,7 +30,7 @@ import {
 } from './storage.js';
 import { attachRevision } from './revision.js';
 import { expandArrangement } from './arrangement.js';
-import { gripPath, scalePath, directPath } from './fret-path.js';
+import { gripPath, arpeggioFor, scalePath, directPath } from './fret-path.js';
 let revision,
   lightFrame = null,
   noteLights = [],
@@ -46,6 +46,11 @@ const $ = (id) => document.getElementById(id);
 let recoveryRaw = null;
 let storageBlocked = false;
 let state = loadState();
+// An empty grip can preview scale degrees without changing the user's saved map preference.
+let previewEmptyDegrees = true;
+const simpleDegrees = ['1', '♭2', '2', '♭3', '3', '4', '♭5', '5', '♭6', '6', '♭7', '7'];
+const previewsDegreeMap = (view) =>
+  previewEmptyDegrees && view.labelsMode === 'degrees' && !view.mapVisible && view.shape.every((f) => f === 'x');
 const history = [];
 const future = [];
 const BACKUP_DATE_KEY = 'guitar-lesson-studio-confirmed-backup';
@@ -74,6 +79,7 @@ const status = (message) => {
   if ($('workspace-dialog')?.open && activeTool === 'library')
     $('library-feedback').textContent = message;
   if ($('chord-forms-dialog')?.open) $('chord-forms-status').textContent = message;
+  if ($('path-dialog')?.open) $('path-feedback').textContent = message;
 };
 function node(tag, text, className) {
   const el = document.createElement(tag);
@@ -111,7 +117,10 @@ PITCH_NAMES_SHARP.forEach((n) => $('key-root').append(new Option(n, n)));
   $('learning-root').append(new Option(n, n)),
 );
 categories.forEach((c) => $('library-category').append(new Option(c, c)));
-on('labels-mode', 'change', (e) => update({ labelsMode: e.target.value }));
+on('labels-mode', 'change', (e) => {
+  previewEmptyDegrees = true;
+  update({ labelsMode: e.target.value });
+});
 on('sound', 'change', (e) => update({ sound: e.target.value }));
 for (const [id, key] of [
   ['repeat', 'repeat'],
@@ -167,7 +176,6 @@ on('capo-select', 'change', (e) => {
   if (!update({ capo: Number(e.target.value) })) e.target.value = state.capo;
 });
 on('spelling-select', 'change', (e) => update({ preferFlats: e.target.value === 'flat' }));
-on('flip-neck', 'click', () => update({ flipped: !state.flipped }));
 on('scale-menu', 'click', () => {
   const open = $('map-controls').classList.toggle('map-open');
   $('scale-menu').setAttribute('aria-expanded', String(open));
@@ -244,7 +252,16 @@ on('hear-chord', 'click', () => playCurrent('chord'));
 on('stop-audio', 'click', () => stopAudio(true));
 on('key-root', 'change', (e) => update({ keyRoot: e.target.value }));
 on('scale-type', 'change', (e) => update({ scaleType: e.target.value }));
-on('toggle-map', 'click', () => update({ mapVisible: !state.mapVisible }));
+on('toggle-map', 'click', () => {
+  const preview = previewsDegreeMap(state);
+  previewEmptyDegrees = false;
+  if (preview) {
+    renderBoard();
+    renderAnalysis();
+    return status('Scale preview hidden. Select a chord or show the map to see degrees.');
+  }
+  update({ mapVisible: !state.mapVisible });
+});
 on('save-shape', 'click', () => {
   showTool('saved');
   $('shape-title').focus();
@@ -613,11 +630,19 @@ function renderBoard(view = state, target = null) {
     capo.title = `Capo ${view.capo}: behind the fret wire, on the nut side`;
     neck.append(capo);
   }
-  const map = new Set(
-    view.mapVisible ? scaleNotes(view.keyRoot, view.scaleType).map(normalizePitchClass) : [],
-  );
-  const chord = analyzeSelection(view.shape, { capo: view.capo, tuning: view.tuning }).chords[0];
-  const order = view.flipped ? [0, 1, 2, 3, 4, 5] : [5, 4, 3, 2, 1, 0];
+  const showMap = view.mapVisible || (!target && previewsDegreeMap(view));
+  const scale = scaleNotes(view.keyRoot, view.scaleType, { preferFlats: view.preferFlats });
+  const map = new Set(showMap ? scale.map(normalizePitchClass) : []);
+  const chord = analyzeSelection(view.shape, {
+    capo: view.capo, tuning: view.tuning, preferFlats: view.preferFlats,
+  }).chords[0];
+  const rootPc = chord?.exact ? chord.rootPc : normalizePitchClass(view.keyRoot);
+  const chordTones = new Set(chord?.exact ? chord.present.map(normalizePitchClass) : []);
+  const degreeFor = (pc) => chordTones.has(pc)
+    ? degreeLabel(chord, pc)
+    : simpleDegrees[(pc - rootPc + 12) % 12];
+  const reference = chord?.exact ? `${chord.root} chord root` : `${view.keyRoot} scale root`;
+  const order = [5, 4, 3, 2, 1, 0]; // Treble to bass on screen; stored grips run bass to treble.
   order.forEach((index) => {
     const string = tuningStrings(view.tuning)[index];
     const row = node('div', undefined, 'string-row');
@@ -667,16 +692,17 @@ function renderBoard(view = state, target = null) {
         board.querySelector(`[data-focus="fret-${targetIndex}-${targetFret}"]`)?.focus();
       });
       if (selected || map.has(midi % 12)) {
-        const interval = ((midi % 12) - normalizePitchClass(view.keyRoot) + 12) % 12;
-        const degree = selected
-          ? degreeLabel(chord, midi % 12)
-          : ({ 0: '1', 3: '♭3', 4: '3', 6: '♭5', 7: '5' }[interval] ?? '');
+        const degree = view.labelsMode === 'degrees' ? degreeFor(midi % 12) : '';
         const dot = node(
           'span',
-          (view.labelsMode === 'degrees' && selected ? degree : '') || note.replace(/-?\d+$/, ''),
+          degree || note.replace(/-?\d+$/, ''),
           'note-dot pitch-' + (midi % 12) + (selected ? '' : ' map-note'),
         );
-        if (degree) b.setAttribute('aria-label', b.getAttribute('aria-label') + ', chord degree ' + degree);
+        if (degree) {
+          const detail = `degree ${degree} from ${reference}`;
+          b.setAttribute('aria-label', b.getAttribute('aria-label') + ', ' + detail);
+          b.title += ' · ' + detail;
+        }
         b.append(dot);
       }
       row.append(b);
@@ -686,8 +712,6 @@ function renderBoard(view = state, target = null) {
   board.append(neck);
   if (board.parentElement) board.parentElement.scrollLeft = previousScroll;
   if (target) return;
-  $('orientation-label').textContent = view.flipped ? 'bass string on top' : 'treble string on top';
-  $('flip-neck').setAttribute('aria-pressed', String(view.flipped));
   $('capo-readout').textContent = view.capo
     ? `${tuningName(view.tuning)} · capo ${view.capo} · (physical frets)`
     : `${tuningName(view.tuning)} · 24 frets · 0 = open`;
@@ -696,11 +720,11 @@ function renderBoard(view = state, target = null) {
   $('fret-range').value = playbackPreview ? 'all' : state.fretRange;
   for (const option of $('fret-range').options)
     option.disabled = option.value !== 'all' && Number(option.value.split('-')[0]) > 24 - view.capo;
-  $('toggle-map').textContent = view.mapVisible ? 'Hide map' : 'Show map';
-  $('toggle-map').setAttribute('aria-pressed', String(view.mapVisible));
-  const scale = scaleNotes(view.keyRoot, view.scaleType, { preferFlats: view.preferFlats }).join(' · ');
-  $('key-notes').textContent = scale;
-  $('toggle-map').title = `${scale}. Filled markers show your grip; the map shows scale notes.`;
+  $('toggle-map').textContent = showMap ? 'Hide map' : 'Show map';
+  $('toggle-map').setAttribute('aria-pressed', String(showMap));
+  const scaleLabels = view.labelsMode === 'degrees' ? scale.map((n) => degreeFor(normalizePitchClass(n))) : scale;
+  $('key-notes').textContent = scaleLabels.join(' · ');
+  $('toggle-map').title = `${scale.join(' · ')}. Filled markers show your grip; the map shows scale notes.`;
 }
 function makeBoard(view) {
   const board = node('div', undefined, 'fretboard');
@@ -772,6 +796,10 @@ function renderAnalysis(view = state) {
   if (exact && !result.dyad) {
     const alternatives = result.chords.filter((c) => c.exact).slice(1, 3);
     if (alternatives.length) explanation += ` Also: ${alternatives.map((c) => c.symbol).join(', ')}.`;
+  }
+  if (view.labelsMode === 'degrees') {
+    const reference = exact ? `chord root ${match.root}` : `scale root ${view.keyRoot}`;
+    explanation = `Degree 1 = ${reference}. ` + explanation;
   }
   $('analysis-explanation').textContent = explanation;
   $('analysis-name').title = explanation;
@@ -1531,12 +1559,13 @@ function startLights() {
 }
 async function playPath({ kind, min, max, tempo, direction, repeat, coverage = 'six-strings' }) {
   try {
+    const arpeggio = kind === 'arpeggio' ? arpeggioFor(state) : null;
     const base =
         kind === 'scale'
           ? scalePath(state, min, max, coverage)
-          : gripPath(state.shape, state.capo, state.tuning),
+          : arpeggio.notes,
       path = directPath(base, direction, kind === 'scale' && coverage === 'six-strings');
-    if (!path.length) throw new Error('Select a grip first.');
+    const label = !arpeggio ? 'Scale' : arpeggio.exampleName ? `Arpeggio example: ${arpeggio.exampleName}` : 'Arpeggio';
     const ctx = await startAudio();
     if (!ctx) return false;
     playbackPreview = true;
@@ -1566,7 +1595,7 @@ async function playPath({ kind, min, max, tempo, direction, repeat, coverage = '
       onStep: (i) => {
         if (i >= 0)
           status(
-            `${kind === 'scale' ? 'Scale' : 'Arpeggio'} · ${midiToNote(path[i].midi)} · string ${6 - path[i].index}, fret ${path[i].fret} · ${liveTempo} BPM · pass ${pass}`,
+            `${label} · ${midiToNote(path[i].midi)} · string ${6 - path[i].index}, fret ${path[i].fret} · ${liveTempo} BPM · pass ${pass}`,
           );
       },
       onEnd: () => {

@@ -1,11 +1,11 @@
 {
-  "version": "0.9.4",
+  "version": "0.9.5",
   "kind": "source",
   "files": [
     {
       "path": "index.html",
-      "bytes": 24732,
-      "sha256": "e20e3f913669e9d52bc720d4a35bcfbd057b6667b158690cf0d618f13af88eb0"
+      "bytes": 24615,
+      "sha256": "0ecfdc205e619a286e9aaecbeea0e1d451aa62c5f33bc4e2c74490ef5b35d940"
     },
     {
       "path": "styles.css",
@@ -14,8 +14,8 @@
     },
     {
       "path": "src/app.js",
-      "bytes": 60192,
-      "sha256": "d298cc8009c0faa011a0aca4c5f316e74bac2ce077397419e07483fef16675eb"
+      "bytes": 61432,
+      "sha256": "d3a490ec0840ba4c410335bf58c6a6f0038b6a3c06e223e503e632a7df64a8d9"
     },
     {
       "path": "src/theory.js",
@@ -29,8 +29,8 @@
     },
     {
       "path": "src/storage.js",
-      "bytes": 11005,
-      "sha256": "146565cdbe73ba956dd7508cea17d3eb6844f0a39169b3ad2f2e479d147d5b13"
+      "bytes": 10926,
+      "sha256": "c5cc3a037ad1bf5a92b0b600575d4afc59504ad7a38560947f37bba710ef8233"
     },
     {
       "path": "src/learning.js",
@@ -79,8 +79,8 @@
     },
     {
       "path": "src/studio.js",
-      "bytes": 32650,
-      "sha256": "79ec20bb66b9252cbee06df9ba79d7d6b2326d658c6b83fa7df4e43a295f7b80"
+      "bytes": 32628,
+      "sha256": "91e52925e871cfa91a628d91890ee5b8732a8c491fe7f0c3033f5c658736d227"
     },
     {
       "path": "src/arrangement.js",
@@ -89,13 +89,13 @@
     },
     {
       "path": "src/fret-path.js",
-      "bytes": 2639,
-      "sha256": "3799e694ff10c68864752865d9daccf655bd7f5d22d5092bb6db752ab814bbdc"
+      "bytes": 3209,
+      "sha256": "f613243ab3290652e8f216b01da453a496d0478eeae718eed63ff58fc4d3cfba"
     },
     {
       "path": "src/revision.js",
-      "bytes": 29481,
-      "sha256": "59d3001ba221474550f473cf522b09749e3bc9f1586cd2c41b01747c50c07e30"
+      "bytes": 30366,
+      "sha256": "9e5e585bf4cea2a2fb271e7ced7378854ee9c1f303633fb08b956edc5a31a93b"
     },
     {
       "path": "src/tunings.js",
@@ -269,8 +269,8 @@
     },
     {
       "path": "README.md",
-      "bytes": 12317,
-      "sha256": "9953f2ead61a6114921799a40a8f48da4a29f13137b0a8eda2484e9405ec4ef3"
+      "bytes": 12702,
+      "sha256": "0191cb916d8e506636cd04062b3b9a4367b81a93ff985eb0e2f9d7fde39b0852"
     },
     {
       "path": "SECURITY.md",
@@ -289,13 +289,13 @@
     },
     {
       "path": "package.json",
-      "bytes": 430,
-      "sha256": "578c52f7056fac84c911d819034686ba831e417a5774b0813d9a05e4e073e049"
+      "bytes": 431,
+      "sha256": "61aac2347b5c0270cb21247668bd4a98b376ee607e1e30259aa20d36bf7d911f"
     },
     {
       "path": "docs/guitar-lesson-studio.png",
-      "bytes": 116036,
-      "sha256": "6b540bf2c7db921efd87067de6cfb9d98ac4474418697c3f3c68738d27af86a9"
+      "bytes": 115228,
+      "sha256": "97813ad4ffb32a94f20a65696f05f9abc52c31e0e208b2c753a05815488c2182"
     },
     {
       "path": "Start Guitar Studio.cmd",
@@ -329,8 +329,8 @@
     },
     {
       "path": "scripts/build-release.mjs",
-      "bytes": 2459,
-      "sha256": "ec823f6ce2f239ea6f191f9048926e76158b827cebc545d303f21bc97cd94cdb"
+      "bytes": 2539,
+      "sha256": "100574d2155ef7bed62ee5cafc0c9ea625e56dba643d4e655388f5d54b569aa9"
     },
     {
       "path": "scripts/audit-release.mjs",
@@ -364,18 +364,18 @@
     },
     {
       "path": "scripts/verify-v7.mjs",
-      "bytes": 8363,
-      "sha256": "b2d3fa2ca40ef15870bcc1ed7b451ba87fc86f98ec1b969f56278d308a3f34e9"
+      "bytes": 9985,
+      "sha256": "0b0d51e9c39023d0b75b2ea009d5afa738a7615d8921aed814573666b990daa6"
     },
     {
       "path": "scripts/verify-v8.mjs",
-      "bytes": 9301,
-      "sha256": "549741a5cd7e378b5c67dfd166c07f65354b66b5b462ad0dbb8feab30e680765"
+      "bytes": 9385,
+      "sha256": "b427ac0deb13fbfa4c72d98b7e091831084d281aee7e05f25c73367a3dafe5fb"
     },
     {
       "path": "scripts/verify-chord-forms.mjs",
-      "bytes": 11846,
-      "sha256": "1c93f14006671aa445ce57c1688e97f5557477d9f32066e46a2ff995e7b5fbcf"
+      "bytes": 11931,
+      "sha256": "9672da469b5a2397cd7546cdfd6c49fb26d35483218e0df4bee72d4642e61109"
     },
     {
       "path": "scripts/hash-assets.mjs",
@@ -399,8 +399,8 @@
     },
     {
       "path": "tests/revision.test.mjs",
-      "bytes": 4530,
-      "sha256": "d0c642c9ef3bbd269e24eab5ae7e4c1887e718e8521e19d345649f977794b5c1"
+      "bytes": 5365,
+      "sha256": "fa50cf97a8e9192d2f422b8ad680663d4215a547353bfce850b716dea428cbbd"
     },
     {
       "path": "tests/samples.test.mjs",
@@ -434,8 +434,8 @@
     },
     {
       "path": "tests/tunings.test.mjs",
-      "bytes": 8144,
-      "sha256": "436ce4bfa3bcc3d8da7d4e62d8c6d2c347977c7a2850f9524e7c9c0888f05ce5"
+      "bytes": 8214,
+      "sha256": "d75777268f7ef85642acd4f1d91ae0de3f0414e78c156403dd65e8e2dff76147"
     }
   ]
 }

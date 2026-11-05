@@ -23,6 +23,7 @@ export const defaultState = () => ({
   saved: [],
   tab: [],
   mapVisible: false,
+  // Preserve the schema-5 backup fields for older clients. Display order is fixed.
   flipped: false,
   orientationVersion: 2,
   fretRange: 'all',
@@ -225,8 +226,6 @@ export function validateState(value) {
     saved,
     tab,
     mapVisible: value.mapVisible ?? false,
-    // Apply the requested treble-at-top default once; later Flip choices persist.
-    flipped: value.orientationVersion === 2 ? (value.flipped ?? false) : false,
     fretRange,
     practiceRamp: {
       enabled: ramp.enabled,

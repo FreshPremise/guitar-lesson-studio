@@ -3,6 +3,7 @@ import { resolve, relative, dirname, isAbsolute, join } from 'node:path';
 import { createHash } from 'node:crypto';
 import { BROWSER_FILES, SOURCE_FILES } from './release-files.mjs';
 const root = await realpath(resolve(import.meta.dirname, '..'));
+const { version } = JSON.parse(await readFile(resolve(root, 'package.json'), 'utf8'));
 const mode = process.argv[2];
 if (!['source', 'browser'].includes(mode)) throw new Error('Choose source or browser');
 const files = mode === 'source' ? SOURCE_FILES : BROWSER_FILES;
@@ -45,7 +46,7 @@ for (const path of files) {
 }
 await writeFile(
   resolve(output, 'release-manifest.json'),
-  JSON.stringify({ version: '0.9.4', kind: mode, files: manifest }, null, 2) + '\n',
+  JSON.stringify({ version, kind: mode, files: manifest }, null, 2) + '\n',
 );
 console.log(
   `${mode}: ${files.length} allowlisted files prepared in ${relative(root, output).replaceAll('\\', '/')}`,

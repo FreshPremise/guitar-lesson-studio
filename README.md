@@ -2,18 +2,24 @@
 
 **Explore chords. Build a piece. Practice with your guitar.**
 
-A browser-based guitar workbench with an interactive fretboard, chord recognition, sampled guitar sounds and a composition studio. Version **0.9.4**.
+A browser-based guitar workbench with an interactive fretboard, chord recognition, sampled guitar sounds and a composition studio. Version **0.9.5**.
 
 ![Guitar Lesson Studio showing a color-coded C chord and an arranged chord sequence](docs/guitar-lesson-studio.png)
 
 *Actual application screenshot using a demonstration composition.*
+
+## New in 0.9.5
+
+- **Play arpeggio** plays the selected grip one note at a time. On an empty fretboard, the dialog offers an example without adding anything to your music.
+- **Chord degrees** labels the visible notes from one root: the recognized chord, or the selected key when there is no recognized chord. Switch back to **Note names** to restore the original view.
+- The fretboard always shows the thin string at the top. Previously saved music opens in that orientation too.
 
 ## New in 0.9.4
 
 - Add any Library card directly to a sequence, including while the Library is expanded.
 - Compare common **Other shapes** in the Library or sequence editor, including the first step, while keeping the chord's tuning, capo and bass note.
 - Clean electric has more even note levels, a fuller tone and gentler releases in playback and WAV exports.
-- The fretboard starts with the higher, thinner strings at the top. Existing installations adopt this default once; subsequent **Flip** choices are remembered.
+- The fretboard puts the higher, thinner strings at the top.
 
 ## Install and open
 
@@ -45,7 +51,7 @@ If the launcher opens a browser without your saved work, return to your previous
 
 | Tool | Functions |
 | --- | --- |
-| **Fretboard** | Select/mute notes, recognize chords and intervals, flip string order and place a capo. Physical fret markers help navigation. |
+| **Fretboard** | Select/mute notes, recognize chords and intervals, and place a capo. Physical fret markers help navigation. |
 | **Tunings** | Standard, Drop D, DADGAD, Open G, Open D and Half-step down. Notes, chord recognition, generated grips, scales and audio follow the tuning. |
 | **Library** | 56 familiar Standard-tuning shapes, chords in a key, triad inversions and a 15-quality chord finder. Every card has **+ Sequence**, including in Expand; **Other shapes** compares common alternatives where available. |
 | **Scales & arpeggios** | Major, minor, pentatonic and blues maps. Play across all six strings, a single octave or the selected grip with exact fret highlights; choose direction, position, tempo and repeat. |
@@ -58,7 +64,7 @@ If the launcher opens a browser without your saved work, return to your previous
 
 ## Read the neck and use the controls
 
-The thin treble string is at the top by default; Flip reverses the view and remembers your choice. String labels show note names without numbers. **×** mutes; **0** is open. Frets count from the capo; physical fret numbers appear in parentheses. Diagrams read bass to treble.
+The fretboard shows string 1 at the top and string 6 at the bottom. In standard tuning, read the rows from top to bottom as high E, B, G, D, A, low E. **×** mutes; **0** is open. Frets count from the capo; physical fret numbers appear in parentheses. Chord diagrams read bass to treble.
 
 **Colors:** each of the twelve pitch classes has its own color, consistent across the neck and all octaves. C♯ and D♭ share a color because they are the same pitch. A **red ring** marks your selected notes; a separate **blue outer halo** follows playback. Labels can show note names or chord degrees.
 

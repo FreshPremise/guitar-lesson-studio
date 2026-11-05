@@ -22,6 +22,31 @@ const stored = () => page.evaluate(() => JSON.parse(localStorage.getItem('guitar
 await mkdir('verification/v7', { recursive: true });
 await mkdir('docs', { recursive: true });
 try {
+  const labelsPage = await browser.newPage(); // Separate blank profile, never the user's notebook.
+  try {
+    await labelsPage.goto(base);
+    const mode = labelsPage.locator('#labels-mode'), map = labelsPage.locator('#toggle-map');
+    const dots = labelsPage.locator('#fretboard .note-dot');
+    await mode.selectOption('degrees');
+    assert.deepEqual([...new Set(await dots.allTextContents())].sort(), ['1', '2', '3', '4', '5', '6', '7']);
+    assert.match(await labelsPage.locator('#analysis-explanation').innerText(), /scale root C/);
+    await mode.selectOption('notes');
+    assert.equal(await dots.count(), 0, 'An empty-board degree preview must leave the saved map setting alone');
+    await map.click();
+    await mode.selectOption('degrees');
+    await labelsPage.locator('#library-search').fill('G major');
+    await labelsPage.getByRole('button', {name: 'Load G major', exact: true}).click();
+    for (const [pitch, expected] of [[7, '1'], [0, '4'], [5, '♭7']]) {
+      const markers = labelsPage.locator(`#fretboard .pitch-${pitch} > .note-dot`);
+      assert.deepEqual([...new Set(await markers.allTextContents())], [expected], 'All dots must use the G chord root');
+    }
+    assert.match(await labelsPage.locator('#analysis-explanation').innerText(), /chord root G/);
+    await mode.selectOption('notes');
+    assert.equal(await map.getAttribute('aria-pressed'), 'true', 'Keep a map that the player explicitly enabled');
+    report.degreeLabels = 'Empty-board preview, reversible labels, and shared chord root across the map';
+  } finally {
+    await labelsPage.close();
+  }
   await page.goto(base);
   await $('tuning-select').selectOption('drop-d');
   assert.equal(await page.title(), 'Guitar Lesson Studio');

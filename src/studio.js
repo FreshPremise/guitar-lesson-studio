@@ -714,7 +714,6 @@ export function attachStudio({
       tuning: 'standard',
       mapVisible: false,
       labelsMode: 'notes',
-      flipped: false,
     });
     for (const el of board.querySelectorAll('[title]')) el.removeAttribute('title');
     for (const row of board.querySelectorAll('.string-row')) {

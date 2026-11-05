@@ -2,7 +2,7 @@ import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { defaultState, validateState, parseBackup, serializeBackup, mergeBackup } from '../src/storage.js';
 import { sections, expandArrangement, DEFAULT_PATTERN } from '../src/arrangement.js';
-import { scalePath, gripPath, directPath } from '../src/fret-path.js';
+import { arpeggioFor, scalePath, gripPath, directPath } from '../src/fret-path.js';
 import { SCALE_INTERVALS, STANDARD_TUNING } from '../src/theory.js';
 import { sequenceTimeline, rhythmHits } from '../src/rhythm.js';
 const chord = { shape: [0, 2, 2, 0, 0, 0], capo: 0, beats: 4, strum: 'down' };
@@ -86,6 +86,21 @@ test('scale paths are exact ascending octaves on valid strings and capo-relative
       }
   assert.throws(() => scalePath(defaultState(), 0, 0));
   assert.equal(gripPath(['x', 3, 2, 0, 1, 0], 2)[0].index, 1);
+});
+test('an empty neck previews the tonic chord in the selected key without changing the grip', () => {
+  for (const [settings, name, pitchClasses] of [
+    [{}, 'C major', [0, 4, 7]],
+    [{ keyRoot: 'F#', scaleType: 'minorPentatonic', tuning: 'dadgad', capo: 7 }, 'F# minor', [1, 6, 9]],
+  ]) {
+    const state = { ...defaultState(), ...settings };
+    const { notes, exampleName } = arpeggioFor(state);
+    assert.equal(exampleName, name);
+    assert.deepEqual([...new Set(notes.map(n => n.midi % 12))].sort((a, b) => a-b), pitchClasses);
+    assert.ok(notes.every(n => n.fret >= 0 && n.fret + state.capo <= 24));
+    assert.deepEqual(state.shape, Array(6).fill('x'));
+    state.shape[2] = 0;
+    assert.deepEqual(arpeggioFor(state), { exampleName: null, notes: gripPath(state.shape, state.capo, state.tuning) });
+  }
 });
 test('adjacent sections with the same title retain separate repeat boundaries', () => {
   const steps = [

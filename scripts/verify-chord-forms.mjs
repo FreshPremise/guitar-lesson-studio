@@ -193,7 +193,8 @@ try {
     }
     const other = await context.newPage();
     await other.goto(base);
-    await other.locator('#flip-neck').click();
+    const range = other.locator('#fret-range');
+    await range.selectOption((await range.inputValue()) === 'all' ? '0-4' : 'all');
     const external = await stored();
     await page.waitForFunction(() => /another tab/i.test(document.getElementById('status').textContent));
     if (action === 'library-add')

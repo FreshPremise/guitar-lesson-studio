@@ -1,9 +1,21 @@
 import { tuningStrings } from './tunings.js';
-import { STANDARD_TUNING, scaleNotes, normalizePitchClass } from './theory.js';
+import { scaleNotes, normalizePitchClass, pitchName } from './theory.js';
+import { familyVoicing } from './learning.js';
 export function gripPath(shape, capo = 0, tuning = 'standard') {
   return shape.flatMap((fret, index) =>
     fret === 'x' ? [] : [{ index, fret, midi: tuningStrings(tuning)[index].midi + capo + fret }],
   );
+}
+export function arpeggioFor(state) {
+  const notes = gripPath(state.shape, state.capo, state.tuning);
+  if (notes.length) return { notes, exampleName: null };
+  const rootPc = normalizePitchClass(state.keyRoot);
+  const quality = state.scaleType.startsWith('major') ? 'major' : 'minor';
+  const example = familyVoicing({ rootPc, quality }, state.capo, state.tuning);
+  return {
+    notes: gripPath(example, state.capo, state.tuning),
+    exampleName: `${pitchName(rootPc, { preferFlats: state.preferFlats })} ${quality}`,
+  };
 }
 export function scalePath(state, minFret = 0, maxFret = 4, coverage = 'octave') {
   if (!['octave', 'six-strings'].includes(coverage)) throw new RangeError('Unknown scale coverage');
