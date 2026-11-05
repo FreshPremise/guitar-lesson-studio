@@ -53,3 +53,43 @@ test('concurrent sample preparations reuse local fetches and recover after a fai
   assert.equal(sampledVoice(context, 40).gain, 1.6);
   assert.ok(sampledVoice(context, 88));
 });
+
+test('electric note bodies are balanced without amplifying quiet tails or changing acoustic gain', async (t) => {
+  t.mock.method(globalThis, 'fetch', async () => ({
+    ok: true,
+    arrayBuffer: async () => new ArrayBuffer(1),
+  }));
+  const results = [];
+  for (const body of [0.001, 0.0625, 0.16, 0.5]) {
+    const data = new Float32Array(1000).fill(body);
+    data[0] = 1;
+    const context = {
+      decodeAudioData: async () => ({
+        numberOfChannels: 1,
+        length: data.length,
+        sampleRate: 1000,
+        getChannelData: () => data,
+      }),
+    };
+    await prepareSamples(context, 'electric');
+    await prepareSamples(context, 'acoustic');
+    const electric = sampledVoice(context, 40, 'electric'),
+      acoustic = sampledVoice(context, 40, 'acoustic');
+    assert.equal(acoustic.gain, 0.8, 'acoustic normalization remains peak based');
+    assert.ok(electric.gain >= 0.8 * 0.72 && electric.gain <= 0.8 * 1.4);
+    assert.equal(electric.offset, acoustic.offset, 'balancing does not move the pluck');
+    assert.equal(electric.rate, 1, 'balancing does not detune notes');
+    results.push(electric.gain);
+  }
+  assert.equal(results[0], 0.8, 'a noise-level body is not turned up');
+  assert.ok(results[1] > 0.8, 'a quieter note body is gently raised');
+  assert.ok(results[2] < 0.8 && results[2] > results[3], 'stronger bodies are gently attenuated');
+});
+
+test('electric samples cover the playable range with nearby recorded roots', () => {
+  for (let midi = 38; midi <= 88; midi++) {
+    const mapping = sampleMapping(midi, 'electric');
+    assert.ok(Math.abs(mapping.root - midi) <= 4);
+    assert.ok(Math.abs(mapping.rate - 2 ** ((midi - mapping.root) / 12)) < 1e-12);
+  }
+});

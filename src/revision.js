@@ -38,7 +38,7 @@ export function attachRevision({
       <section id="guide-neck" tabindex="-1"><h3>Read and explore the fretboard</h3>
         <h4>Select notes and read the neck</h4><ul>
           <li><strong>Click a fret</strong> to select a note. <strong>×</strong> mutes that string; <strong>0</strong> means open. The selection panel identifies the notes and chord.</li>
-          <li><strong>Orientation:</strong> the thin high e string starts at the bottom; the bass string is at the top. <strong>Flip</strong> reverses the view.</li>
+          <li><strong>Orientation:</strong> the thin high e string starts at the top; the bass string is at the bottom. <strong>Flip</strong> reverses the view and remembers your choice.</li>
           <li><strong>Capo:</strong> frets count from the capo. Numbers in parentheses show physical frets. The neck stops at <strong>physical fret 24</strong>.</li>
           <li><strong>Reach higher frets:</strong> drag the scroll control beneath the neck, or choose a four-fret range up to <strong>20–24</strong>. Notes outside the view remain selected and are counted in the caption.</li>
           <li><strong>Colors:</strong> each of the twelve note names has a consistent color across strings and octaves. C♯ and D♭ share a color because they are the same pitch. A <strong>red ring</strong> marks your selection; a <strong>blue outer halo</strong> follows playback.</li>
@@ -47,6 +47,8 @@ export function attachRevision({
           <li><strong>Tuning:</strong> Standard, Drop D, DADGAD, Open G, Open D and Half-step down are in the top bar. The virtual guitar, chord recognition, scales, generated grips and audio follow your choice. Tune your real guitar separately.</li>
           <li><strong>Saved tuning:</strong> each saved grip and sequence step remembers its tuning. Playing a mixed-tuning sequence on a real guitar requires retuning between those steps.</li>
           <li><strong>Library:</strong> explore familiar Standard-tuning Shapes, Key family chords, Triads and the Chord finder. <strong>Labels</strong> switches between note names and chord degrees.</li>
+          <li><strong>Add from Library:</strong> every card has <strong>+ Sequence</strong>, including in the expanded workspace. Familiar Shapes keep Standard tuning and the current capo when added.</li>
+          <li><strong>Other shapes:</strong> where common alternatives exist, compare their diagrams and fret positions. <strong>Use this shape</strong> loads the neck; <strong>+ Sequence</strong> adds that exact fingering. The chord and bass note stay the same.</li>
         </ul>
         <h4>Hear scales and arpeggios</h4><ul>
           <li><strong>Scale → Show map</strong> marks scale notes on all six strings.</li>
@@ -58,7 +60,7 @@ export function attachRevision({
       </section>
       <section id="guide-compose" tabindex="-1"><h3>Build and shape a composition</h3><ul>
         <li><strong>+ Sequence:</strong> add the current grip to your piece.</li>
-        <li><strong>Edit a step:</strong> change its duration, strum direction or rhythm; move or copy it; compare smoother grips from the previous chord.</li>
+        <li><strong>Edit a step:</strong> change its duration, strum direction or rhythm; move or copy it; choose <strong>Other chord shapes</strong>, including on the first step. Changing the shape keeps its timing and section settings. You can also compare smoother grips from the previous chord.</li>
         <li><strong>Arrange:</strong> name a range Verse, Chorus or Bridge, then repeat, copy or move whole sections.</li>
         <li><strong>Rhythm:</strong> choose a song-wide pattern or override it for one step. <strong>My strum pattern</strong> has eight half-beat slots for downstrokes, upstrokes, rests and accents.</li>
         <li><strong>Loop:</strong> repeat a selected passage for practice. <strong>Playing view</strong> shows the current and next chord.</li>
@@ -93,7 +95,7 @@ export function attachRevision({
           <li><strong>On the neck:</strong> arrow keys move between notes; Enter selects.</li>
           <li><strong>Undo / Redo:</strong> restore up to 40 edits until reload. Ctrl/Cmd+Z undoes; Ctrl/Cmd+Shift+Z or Ctrl+Y redoes. A new edit clears Redo; text fields keep their normal shortcuts.</li>
           <li><strong>Note names:</strong> Sharps and Flats change labels, such as C♯ and D♭, without changing pitch or tuning. Key-family names follow the musical key.</li>
-          <li><strong>Sound:</strong> Acoustic and Clean electric use bundled recordings. Settings adjusts volume and tone. Playback starts only when requested.</li>
+          <li><strong>Sound:</strong> Acoustic and Clean electric use bundled recordings. Clean electric balances note levels and adds a fuller midrange, smoother high end and gentler releases. Settings adjusts volume and tone. Playback starts only when requested.</li>
         </ul>
       </section>
       <section id="guide-credits" tabindex="-1"><h3>Development, sound and font credits</h3>

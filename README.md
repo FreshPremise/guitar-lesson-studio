@@ -2,11 +2,18 @@
 
 **Explore chords. Build a piece. Practice with your guitar.**
 
-A browser-based guitar workbench with an interactive fretboard, chord recognition, sampled guitar sounds and a composition studio. Version **0.9.3**.
+A browser-based guitar workbench with an interactive fretboard, chord recognition, sampled guitar sounds and a composition studio. Version **0.9.4**.
 
 ![Guitar Lesson Studio showing a color-coded C chord and an arranged chord sequence](docs/guitar-lesson-studio.png)
 
 *Actual application screenshot using a demonstration composition.*
+
+## New in 0.9.4
+
+- Add any Library card directly to a sequence, including while the Library is expanded.
+- Compare common **Other shapes** in the Library or sequence editor, including the first step, while keeping the chord's tuning, capo and bass note.
+- Clean electric has more even note levels, a fuller tone and gentler releases in playback and WAV exports.
+- The fretboard starts with the higher, thinner strings at the top. Existing installations adopt this default once; subsequent **Flip** choices are remembered.
 
 ## Install and open
 
@@ -40,7 +47,7 @@ If the launcher opens a browser without your saved work, return to your previous
 | --- | --- |
 | **Fretboard** | Select/mute notes, recognize chords and intervals, flip string order and place a capo. Physical fret markers help navigation. |
 | **Tunings** | Standard, Drop D, DADGAD, Open G, Open D and Half-step down. Notes, chord recognition, generated grips, scales and audio follow the tuning. |
-| **Library** | 56 familiar Standard-tuning shapes, chords in a key, triad inversions and a 15-quality chord finder. |
+| **Library** | 56 familiar Standard-tuning shapes, chords in a key, triad inversions and a 15-quality chord finder. Every card has **+ Sequence**, including in Expand; **Other shapes** compares common alternatives where available. |
 | **Scales & arpeggios** | Major, minor, pentatonic and blues maps. Play across all six strings, a single octave or the selected grip with exact fret highlights; choose direction, position, tempo and repeat. |
 | **Sequence** | Add chords/rests, change duration/direction, reorder or copy steps, transpose and compare capo options or smoother grips. |
 | **Arrange / Pattern / Loop** | Name and repeat sections, copy/move them, customize strum patterns and step overrides, or practice a chosen passage. |
@@ -51,13 +58,15 @@ If the launcher opens a browser without your saved work, return to your previous
 
 ## Read the neck and use the controls
 
-The thin treble string is at the bottom by default; Flip reverses the view. String labels show note names without numbers. **×** mutes; **0** is open. Frets count from the capo; physical fret numbers appear in parentheses. Diagrams read bass to treble.
+The thin treble string is at the top by default; Flip reverses the view and remembers your choice. String labels show note names without numbers. **×** mutes; **0** is open. Frets count from the capo; physical fret numbers appear in parentheses. Diagrams read bass to treble.
 
 **Colors:** each of the twelve pitch classes has its own color, consistent across the neck and all octaves. C♯ and D♭ share a color because they are the same pitch. A **red ring** marks your selected notes; a separate **blue outer halo** follows playback. Labels can show note names or chord degrees.
 
 **Fret range:** the full neck reaches physical fret 24. Scroll horizontally to reach higher notes, or choose a four-fret range from 0–4 through 20–24. With a capo, relative numbers stop at physical fret 24. Changing the view keeps your grip intact; the caption counts notes outside the view. Playback follows the played notes and restores your range afterward. Compact diagrams include the selected frets. The familiar chord generators and practice quizzes retain their beginner-friendly lower positions.
 
 **More room:** drag the left edge of the selection panel to make it wider or narrower. Keyboard users can focus the divider and use Left/Right; Home resets its width. On small screens the panels stack. Choose **Expand** above Library, Notebook, Sequence or Practice for a larger workspace; all four tabs remain available. **Restore** or Escape returns it to the main page without losing edits.
+
+**Choose a chord shape:** use **Other shapes** on a Library card to compare diagrams and fret positions. **Use this shape** loads a fingering onto the neck; **+ Sequence** adds that exact form without closing the expanded Library. Familiar Shapes use Standard tuning and the current capo, including direct adds. In **Sequence → Edit**, **Other chord shapes** also works on the first step and preserves its duration, rhythm and section settings. Common alternatives keep the sounding chord and bass note; a choice appears only when a supported alternative is available. Undo reverses a load, add or replacement.
 
 Backups with notes above fret 12 require version 0.9.0 or later. Earlier music remains compatible with this version.
 
@@ -66,6 +75,8 @@ In shorter windows, scroll the page to reach the complete lower workspace. Its c
 **Stop sound ends all current audio**, including repeating playback and metronome clicks. It never clears your selection, deletes a song or erases your work. It is disabled when nothing is playing. **Pause / Resume** holds and continues playback from the same point.
 
 **Settings → Note names** chooses sharps/flats: C♯ and D♭ describe the same pitch. This changes labels, not sound. Settings also controls volume, tone and full screen where supported.
+
+**Clean electric:** the bundled electric recordings use balanced note levels, a fuller midrange and a smoother high end, with gentler note releases. Warm, Balanced and Bright remain available in Settings. Live playback and WAV exports use the same sound processing.
 
 **Tuning** retunes the virtual guitar; tune your real instrument separately. Saved grips and sequence steps remember their own tuning. Familiar **Shapes** select Standard when loaded. **Key family**, **Triads**, **Chord finder** and **Progressions** generate grips for the current tuning. A mixed-tuning piece requires retuning a real guitar between those steps.
 
@@ -102,7 +113,7 @@ npm run audit:release     # Check both candidates and their hashes
 
 The build commands replace their generated folders. Keep personal files elsewhere. Review the candidate before publishing; do not upload the working folder wholesale.
 
-Browser checks use Playwright and a separate muted Edge profile. Install it as a development tool (`npm install --no-save playwright`), start the app, then run `node scripts/verify-v6.mjs`, `node scripts/verify-v6-features.mjs`, `node scripts/verify-v7.mjs` and `node scripts/verify-v8.mjs`. Override `PLAYWRIGHT_PATH` or `BROWSER_PATH` if needed. `node scripts/verify-http.mjs` checks the server boundaries.
+Browser checks use Playwright and a separate muted Edge profile. Install it as a development tool (`npm install --no-save playwright`), start the app, then run `node scripts/verify-v6.mjs`, `node scripts/verify-v6-features.mjs`, `node scripts/verify-v7.mjs`, `node scripts/verify-v8.mjs` and `node scripts/verify-chord-forms.mjs`. Override `PLAYWRIGHT_PATH` or `BROWSER_PATH` if needed. `node scripts/verify-http.mjs` checks the server boundaries.
 
 See the [security and privacy notes](SECURITY.md) and [release checklist](GITHUB_RELEASE_CHECKLIST.md). These commands prepare local files only; they do not publish the application.
 

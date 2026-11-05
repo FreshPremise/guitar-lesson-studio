@@ -3,7 +3,6 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="description" content="Your private guitar fretboard, chord library and musical notebook." />
     <title>Guitar Lesson Studio</title>
     <link rel="icon" href="data:," />
     <link rel="stylesheet" href="styles.css" />
@@ -44,7 +43,7 @@
       <section class="instrument" aria-label="Guitar workbench">
         <div class="fretboard-panel">
           <div class="section-heading">
-            <h2>Fretboard <span id="orientation-label">high e on bottom</span></h2>
+            <h2>Fretboard <span id="orientation-label">treble string on top</span></h2>
             <div class="actions">
               <button id="scale-menu" aria-controls="map-controls" aria-expanded="false">Scales</button
               ><button id="flip-neck" title="Reverse the displayed string order">Flip</button
@@ -204,6 +203,7 @@
               ><button id="library-next" aria-label="Next shapes">→</button>
             </div>
           </div>
+          <output id="library-feedback" class="hint" role="status" aria-live="polite"></output>
           <div id="library-cards" class="card-grid"></div>
           <p id="library-tip" class="hint">
             Diagrams read low E → high e. Numbers show frets relative to the capo. Select a card to try it.
@@ -472,6 +472,15 @@
         depends on your hand.
       </p>
       <div id="capo-results"></div>
+    </dialog>
+    <dialog id="chord-forms-dialog" aria-labelledby="chord-forms-heading" aria-describedby="chord-forms-description">
+      <div class="section-heading">
+        <h2 id="chord-forms-heading">Other shapes</h2>
+        <form method="dialog"><button>Close</button></form>
+      </div>
+      <p id="chord-forms-description" class="hint"></p>
+      <output id="chord-forms-status" class="hint" role="status" aria-live="polite"></output>
+      <div id="chord-forms-list"></div>
     </dialog>
     <dialog id="step-dialog" aria-labelledby="step-heading">
       <div class="section-heading">

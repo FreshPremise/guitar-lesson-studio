@@ -1062,11 +1062,14 @@ a {
   border-radius: 9px;
   background: #fff;
   overflow: hidden;
+  display: flex;
+  flex-direction: column;
 }
 .learning-card .shape-card {
   width: 100%;
   border: 0;
   border-radius: 0;
+  flex: 1;
 }
 .learning-card .shape-card.active {
   box-shadow: inset 0 0 0 2px #000;
@@ -2546,6 +2549,28 @@ main { height: auto; grid-template-rows: auto minmax(300px, 1fr); }
 
 #workspace-dialog .card-grid { max-height: none; grid-template-columns: repeat(auto-fit, minmax(290px, 1fr)); }
 #workspace-dialog .saved-list { max-height: none; }
+
+/* Card actions stay reachable in both the regular and expanded Library. */
+.library-card-actions { display: flex; flex-wrap: wrap; border-top: 1px solid #000; }
+.library-card-actions button { flex: 1 1 auto; border: 0; border-radius: 0; padding: 8px 10px; }
+.library-card-actions button + button { border-left: 1px solid #000; }
+#library-feedback:empty, #chord-forms-status:empty { display: none; }
+#library-feedback, #chord-forms-status { display: block; flex: none; margin: 0 0 8px; color: #1646a2; font-weight: 700; }
+#chord-forms-dialog { width: min(880px, calc(100vw - 24px)); }
+#chord-forms-dialog > .section-heading { align-items: flex-start; gap: 12px; }
+#chord-forms-dialog h2 { min-width: 0; }
+#chord-forms-dialog form { margin: 0; }
+#chord-forms-list { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(210px, 100%), 1fr)); gap: 12px; }
+.common-chord-form { min-width: 0; border: 1px solid #000; border-radius: 8px; padding: 12px; display: flex; flex-direction: column; align-items: center; text-align: center; gap: 8px; }
+.common-chord-form h3 { margin: 0; font-size: 18px; }
+.common-chord-form svg { width: 100px; height: 140px; }
+.common-chord-form p { margin: 0; }
+.common-chord-form .actions { justify-content: center; flex-wrap: wrap; margin-top: auto; }
+.common-chord-form button[aria-pressed="true"] { background: #edf3ff; box-shadow: inset 0 0 0 2px #1646a2; }
+.common-chord-forms .voicing-choices button { white-space: normal; max-width: 210px; gap: 6px; }
+@media (max-width: 600px) {
+  #workspace-dialog .card-grid { grid-template-columns: minmax(0, 1fr); }
+}
 
 /* Keep navigation and Close visible while the Guide instructions scroll. */
 #guide-dialog { padding: 0; width: min(940px, calc(100vw - 24px)); height: min(860px, calc(100dvh - 24px)); max-height: calc(100dvh - 24px); overflow: hidden; }

@@ -7,7 +7,7 @@ import {
   pitchName,
   normalizePitchClass,
 } from './theory.js';
-import { CHORD_TYPES, capoSuggestions, revoiceEvent } from './voicings.js';
+import { CHORD_TYPES, capoSuggestions, commonChordForms, revoiceEvent } from './voicings.js';
 import { PROGRESSIONS, buildProgression, eventName } from './songs.js';
 import { expandArrangement, sections } from './arrangement.js';
 import { RHYTHMS } from './rhythm.js';
@@ -434,7 +434,7 @@ export function attachStudio({
     const controls = node('div', undefined, 'actions');
     const change = (changes) => {
       const state = getState();
-      update({ tab: state.tab.map((e, i) => (i === editingStep ? { ...e, ...changes } : e)) });
+      return update({ tab: state.tab.map((e, i) => (i === editingStep ? { ...e, ...changes } : e)) });
     };
     const beats = node('select');
     beats.setAttribute('aria-label', `Beats for step ${editingStep + 1}`);
@@ -494,8 +494,8 @@ export function attachStudio({
       }),
       button('Replace with neck', () => {
         const state = getState();
-        change({ shape: [...state.shape], capo: state.capo, tuning: state.tuning });
-        status('Step replaced with your current neck selection.');
+        if (change({ shape: [...state.shape], capo: state.capo, tuning: state.tuning }))
+          status('Step replaced with your current neck selection.');
       }),
     );
     editor.append(
@@ -506,6 +506,39 @@ export function attachStudio({
         'hint',
       ),
     );
+    if (event.shape.some((f) => f !== 'x')) {
+      const forms = commonChordForms(event),
+        section = node('section', undefined, 'common-chord-forms');
+      section.append(
+        node('h3', 'Other chord shapes'),
+        node(
+          'p',
+          forms.length
+            ? 'Common forms with the same chord and bass note. Capo, tuning, timing and rhythm stay the same. A seventh or extended chord may add or omit its fifth.'
+            : 'No other common shape is listed for this chord, tuning and bass position. You can still select a grip on the neck and use Replace with neck.',
+          'hint',
+        ),
+      );
+      const choices = node('div', undefined, 'voicing-choices');
+      for (const form of forms) {
+        const choose = button(
+          '',
+          () => {
+            if (change({ shape: [...form.shape] }))
+              status(`Step ${editingStep + 1} now uses ${form.source.toLowerCase()}. Undo restores its previous shape.`);
+          },
+          `Use ${form.source.toLowerCase()}, ${form.shape.join(' ')}`,
+        );
+        choose.append(
+          diagram(form.shape, form.tuning),
+          node('strong', form.source),
+          node('span', form.shape.join(' ')),
+        );
+        choices.append(choose);
+      }
+      section.append(choices);
+      editor.append(section);
+    }
     document.dispatchEvent(new CustomEvent('step-editor-ready', { detail: { index: editingStep, change } }));
   }
   function download(data, type, extension, songTitle = getState().songTitle) {

@@ -68,8 +68,9 @@ function harness() {
       return {
         frequency: {},
         Q: {},
-        connect() {
-          return { connect() {} };
+        gain: {},
+        connect(target) {
+          return target;
         },
         disconnect() {},
       };
@@ -162,4 +163,42 @@ test('sequence scheduling uses tempo and each step capo', async () => {
   const n = h.oscillators.length;
   h.timeouts.at(-1).fn();
   assert.equal(h.oscillators.length, n);
+});
+
+test('electric playback uses the sampled instrument and Stop still cancels all voices', async () => {
+  const h = harness();
+  vm.runInContext("state.sound='electric'", h.ctx);
+  await vm.runInContext("playCurrent('chord')", h.ctx);
+  assert.equal(h.oscillators.length, 6);
+  assert.equal(h.oscillators[0].buffer, vm.runInContext("sampledVoice(audioContext,40,'electric').buffer", h.ctx));
+  vm.runInContext('stopAudio(true)', h.ctx);
+  assert.ok(h.oscillators.every((o) => o.stops === 2));
+  assert.equal(h.stop.disabled, true);
+});
+
+test('electric and acoustic output graphs release every node on disposal', () => {
+  for (const sound of ['acoustic', 'electric']) {
+    const nodes = [], destination = {};
+    const makeNode = () => {
+      const node = {
+        frequency: {}, Q: {}, gain: {}, targets: [], disconnected: false,
+        connect(target) { this.targets.push(target); return target; },
+        disconnect() { this.disconnected = true; },
+      };
+      nodes.push(node);
+      return node;
+    };
+    const output = audioOutput({ destination, createBiquadFilter: makeNode, createGain: makeNode }, { sound });
+    let connected = output.input;
+    const visited = new Set();
+    while (connected !== destination) {
+      assert.ok(!visited.has(connected), 'signal path must not feed back');
+      visited.add(connected);
+      assert.equal(connected.targets.length, 1);
+      connected = connected.targets[0];
+    }
+    assert.equal(visited.size, nodes.length, 'every processing node feeds the output');
+    output.dispose();
+    assert.ok(nodes.every((node) => node.disconnected));
+  }
 });

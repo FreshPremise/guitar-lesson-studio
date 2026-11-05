@@ -28,13 +28,21 @@ test('six-string scales cover every string and selected scale position in either
   }
   assert.throws(()=>scalePath(defaultState(),8,4,'six-strings'));
 });
-test('new orientation defaults to treble at bottom once and retains subsequent Flip choices', () => {
-  const old={...defaultState(),flipped:false}; delete old.orientationVersion;
-  const migrated=validateState(old);
-  assert.equal(migrated.flipped,true);
-  assert.equal(migrated.orientationVersion,1);
-  assert.equal(validateState({...migrated,flipped:false}).flipped,false);
-  assert.equal(parseBackup(serializeBackup({...migrated,flipped:false})).flipped,false);
+test('orientation defaults to treble at top once and retains subsequent Flip choices', () => {
+  assert.equal(defaultState().flipped, false);
+  for (const orientationVersion of [undefined, 1]) {
+    const old = { ...defaultState(), flipped: true, orientationVersion,
+      shape: ['x', 3, 2, 0, 1, 0], capo: 2,
+      tab: [{ shape: ['x', 3, 2, 0, 1, 0], capo: 2, tuning: 'standard', beats: 4, strum: 'up' }] };
+    const migrated = validateState(old);
+    assert.equal(migrated.flipped, false);
+    assert.equal(migrated.orientationVersion, 2);
+    assert.deepEqual(migrated.shape, old.shape);
+    assert.deepEqual(migrated.tab, old.tab);
+    assert.equal(migrated.capo, old.capo);
+    assert.equal(validateState({ ...migrated, flipped: true }).flipped, true);
+    assert.equal(parseBackup(serializeBackup({ ...migrated, flipped: true })).flipped, true);
+  }
 });
 
 test('alternate open strings have known pitches and chords, including capo', () => {

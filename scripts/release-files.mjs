@@ -33,6 +33,7 @@ export const SOURCE_FILES = [
       'verify-v6-features',
       'verify-v7',
       'verify-v8',
+      'verify-chord-forms',
       'hash-assets',
     ].map((n) => `scripts/${n}.mjs`),
     ...[

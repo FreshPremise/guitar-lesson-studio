@@ -5,19 +5,44 @@ export const pitches = (shape, capo, tuning) =>
   analyzeSelection(shape, { capo, tuning })
     .notes.filter((n) => n.midi !== null)
     .map((n) => n.midi);
-export function audioOutput(context, { volume = 75, tone = 'balanced' } = {}) {
+export function audioOutput(context, { volume = 75, tone = 'balanced', sound = 'acoustic' } = {}) {
   const filter = context.createBiquadFilter(),
-    gain = context.createGain();
+    gain = context.createGain(),
+    nodes = [filter, gain];
   filter.type = 'lowpass';
-  filter.frequency.value = { warm: 2600, balanced: 6500, bright: 14000 }[tone] ?? 6500;
+  filter.frequency.value =
+    sound === 'electric'
+      ? ({ warm: 3200, balanced: 5200, bright: 7600 }[tone] ?? 5200)
+      : ({ warm: 2600, balanced: 6500, bright: 14000 }[tone] ?? 6500);
   filter.Q.value = 0.55;
+  let input = filter;
+  if (sound === 'electric') {
+    // Clean amp/cabinet-style voicing: retain the pluck, add body and smooth
+    // the samples' top end. This same linear chain is used for live and WAV.
+    const rumble = context.createBiquadFilter(),
+      body = context.createBiquadFilter(),
+      presence = context.createBiquadFilter();
+    rumble.type = 'highpass';
+    rumble.frequency.value = 55;
+    rumble.Q.value = 0.65;
+    body.type = 'peaking';
+    body.frequency.value = 360;
+    body.Q.value = 0.7;
+    body.gain.value = 2;
+    presence.type = 'peaking';
+    presence.frequency.value = 2800;
+    presence.Q.value = 0.75;
+    presence.gain.value = -3;
+    rumble.connect(body).connect(presence).connect(filter);
+    nodes.push(rumble, body, presence);
+    input = rumble;
+  }
   gain.gain.value = volume / 100;
   filter.connect(gain).connect(context.destination);
   return {
-    input: filter,
+    input,
     dispose() {
-      filter.disconnect();
-      gain.disconnect();
+      for (const node of nodes) node.disconnect();
     },
   };
 }
@@ -57,10 +82,11 @@ export function scheduleGuitar(
     // Very short gates must never schedule an envelope backwards.
     if (finish <= when + 0.006) return;
     const level = (0.24 * accent * (sample?.gain ?? 1)) / Math.sqrt(ordered.length),
-      attack = Math.min(0.004, (finish - when) / 3);
+      attack = Math.min(sound === 'electric' ? 0.006 : 0.004, (finish - when) / 3),
+      release = sound === 'electric' ? 0.065 : 0.025;
     gain.gain.setValueAtTime(0, when);
     gain.gain.linearRampToValueAtTime(level, when + attack);
-    gain.gain.setValueAtTime(level, Math.max(when + attack, finish - 0.025));
+    gain.gain.setValueAtTime(level, Math.max(when + attack, finish - release));
     gain.gain.linearRampToValueAtTime(0, finish);
     source.connect(gain).connect(output);
     voices.add(source);

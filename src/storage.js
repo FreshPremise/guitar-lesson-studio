@@ -23,8 +23,8 @@ export const defaultState = () => ({
   saved: [],
   tab: [],
   mapVisible: false,
-  flipped: true,
-  orientationVersion: 1,
+  flipped: false,
+  orientationVersion: 2,
   fretRange: 'all',
   practiceRamp: { enabled: false, increment: 5, every: 4, target: 120 },
   tempo: 90,
@@ -113,7 +113,7 @@ export function validateState(value) {
     'invalid practice speed settings',
   );
   requireValue(
-    value.orientationVersion === undefined || value.orientationVersion === 1,
+    value.orientationVersion === undefined || [1, 2].includes(value.orientationVersion),
     'invalid orientation preference',
   );
   requireValue(
@@ -225,8 +225,8 @@ export function validateState(value) {
     saved,
     tab,
     mapVisible: value.mapVisible ?? false,
-    // Apply the requested bass-at-top default once; later Flip choices persist.
-    flipped: value.orientationVersion === 1 ? (value.flipped ?? true) : true,
+    // Apply the requested treble-at-top default once; later Flip choices persist.
+    flipped: value.orientationVersion === 2 ? (value.flipped ?? false) : false,
     fretRange,
     practiceRamp: {
       enabled: ramp.enabled,

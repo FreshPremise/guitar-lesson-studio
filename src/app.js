@@ -39,7 +39,7 @@ import { degreeLabel, keyFamily, triadVoicings, nearestVoicings, familyVoicing }
 import { createTransport } from './transport.js';
 import { prepareSamples } from './samples.js';
 import { scheduleGuitar, audioOutput, pitches } from './audio-engine.js';
-import { CHORD_TYPES, findVoicings } from './voicings.js';
+import { CHORD_TYPES, findVoicings, commonChordForms } from './voicings.js';
 import { attachStudio } from './studio.js';
 import { eventName } from './songs.js';
 const $ = (id) => document.getElementById(id);
@@ -71,6 +71,9 @@ const voices = new Set(),
 const code = (shape) => shape.join(' ');
 const status = (message) => {
   $('status').textContent = message;
+  if ($('workspace-dialog')?.open && activeTool === 'library')
+    $('library-feedback').textContent = message;
+  if ($('chord-forms-dialog')?.open) $('chord-forms-status').textContent = message;
 };
 function node(tag, text, className) {
   const el = document.createElement(tag);
@@ -555,6 +558,9 @@ function renderAll() {
   renderLibrary();
   renderSaved();
   renderSequence();
+  for (const option of document.querySelectorAll('[data-use-form]'))
+    option.setAttribute('aria-pressed', String(option.dataset.shape === code(state.shape)
+      && Number(option.dataset.capo) === state.capo && option.dataset.tuning === state.tuning));
   studio?.render();
   revision?.render();
   if (focusKey)
@@ -830,7 +836,7 @@ function renderLibrary(nearest = false) {
     $(id).hidden = !triads;
   $('library-tip').textContent = exploring
     ? 'Choose a sounding key. Grips account for the current tuning and capo. Load a card or add it directly to your sequence.'
-    : 'Familiar Shapes use Standard tuning. Loading one selects Standard. For other tunings, use Key family, Triads or Chord finder.';
+    : 'Familiar Shapes use Standard tuning and the current capo. Load a card, add it to your sequence, or compare Other shapes. Loading selects Standard.';
   const query = $('library-search').value.trim().toLowerCase().replaceAll('♯', '#').replaceAll('♭', 'b'),
     category = $('library-category').value;
   let matches = guitarLibrary.filter(
@@ -895,6 +901,8 @@ function renderLibrary(nearest = false) {
     librarySignature = signature;
     $('library-cards').replaceChildren();
     for (const item of matches.slice(page * pageSize, (page + 1) * pageSize)) {
+      const tuning = item.tuning ?? (exploring ? state.tuning : 'standard');
+      const event = { shape: [...item.shape], capo: state.capo, tuning };
       const card = button(
         '',
         () => {
@@ -911,6 +919,7 @@ function renderLibrary(nearest = false) {
       );
       card.className = 'shape-card';
       card.dataset.shape = code(item.shape);
+      card.dataset.tuning = tuning;
       card.title = item.learningNote;
       const text = node('div');
       text.append(
@@ -919,14 +928,20 @@ function renderLibrary(nearest = false) {
         node('span', code(item.shape), 'shape-code'),
       );
       card.append(diagram(item.shape, item.tuning ?? (exploring ? state.tuning : 'standard')), text);
-      if (exploring) {
-        const wrap = node('article', undefined, 'learning-card');
-        wrap.append(
-          card,
-          button('+ Sequence', () => appendStep(item.shape, state.capo), `Add ${item.title} to sequence`),
-        );
-        $('library-cards').append(wrap);
-      } else $('library-cards').append(card);
+      const wrap = node('article', undefined, 'learning-card');
+      const actions = node('div', undefined, 'library-card-actions');
+      actions.append(button('+ Sequence', () => {
+        if (appendStep(event.shape, event.capo, event.tuning)) {
+          const message = `Added ${eventName(event, { preferFlats: state.preferFlats })} to sequence · ${state.tab.length} steps.`;
+          status(message);
+          $('library-feedback').textContent = message;
+        }
+      }, `Add ${item.title} to sequence`));
+      const alternatives = item.category === 'Scales & keys' ? [] : commonChordForms(event);
+      if (alternatives.length) actions.append(button('Other shapes',
+        () => showChordForms(event, alternatives), `Other shapes for ${item.title}`));
+      wrap.append(card, actions);
+      $('library-cards').append(wrap);
     }
     if (!matches.length)
       $('library-cards').append(
@@ -940,17 +955,53 @@ function renderLibrary(nearest = false) {
       );
   }
   for (const card of $('library-cards').querySelectorAll('.shape-card')) {
-    const selected = card.dataset.shape === code(state.shape);
+    const selected = card.dataset.shape === code(state.shape) && card.dataset.tuning === state.tuning;
     card.classList.toggle('active', selected);
     card.setAttribute('aria-pressed', String(selected));
   }
 }
-function appendStep(shape, capo) {
-  if (state.tab.length >= MAX_TAB) return status(`Sequence limit: ${MAX_TAB} steps.`);
-  update(
-    { tab: [...state.tab, { shape: [...shape], capo, tuning: state.tuning, beats: 1, strum: 'down' }] },
+function appendStep(shape, capo, tuning = state.tuning) {
+  if (state.tab.length >= MAX_TAB) {
+    status(`Sequence limit: ${MAX_TAB} steps. Remove a step before adding more.`);
+    return false;
+  }
+  return update(
+    { tab: [...state.tab, { shape: [...shape], capo, tuning, beats: 1, strum: 'down' }] },
     'Added to sequence.',
   );
+}
+function showChordForms(event, alternatives) {
+  const dialog = $('chord-forms-dialog');
+  const title = eventName(event, { preferFlats: state.preferFlats });
+  $('chord-forms-heading').textContent = `Other shapes · ${title}`;
+  $('chord-forms-description').textContent = `${tuningName(event.tuning)} · ${event.capo ? `capo ${event.capo}` : 'no capo'}. Same chord and bass note in different positions. Frets count from the capo.`;
+  $('chord-forms-status').textContent = '';
+  const list = $('chord-forms-list');
+  list.replaceChildren();
+  const forms = [{ ...event, source: 'Original shape' }, ...alternatives];
+  for (const form of forms) {
+    const card = node('article', undefined, 'common-chord-form');
+    const label = `${form.source} · ${code(form.shape)}`;
+    card.append(node('h3', form.source), diagram(form.shape, event.tuning), node('p', code(form.shape), 'shape-code'));
+    const actions = node('div', undefined, 'actions');
+    actions.append(
+      button('Use this shape', () => {
+        update({ shape: [...form.shape], capo: event.capo, tuning: event.tuning }, `${title} loaded · ${form.source}.`);
+      }, `Use ${label}`),
+      button('+ Sequence', () => {
+        if (appendStep(form.shape, event.capo, event.tuning))
+          status(`Added ${title} · ${form.source} to sequence · ${state.tab.length} steps.`);
+      }, `Add ${label} to sequence`),
+    );
+    actions.firstChild.dataset.useForm = 'true';
+    actions.firstChild.dataset.shape = code(form.shape);
+    actions.firstChild.dataset.capo = String(event.capo);
+    actions.firstChild.dataset.tuning = event.tuning;
+    actions.firstChild.setAttribute('aria-pressed', String(code(form.shape) === code(state.shape) && event.capo === state.capo && event.tuning === state.tuning));
+    card.append(actions);
+    list.append(card);
+  }
+  dialog.showModal();
 }
 function cancelEdit() {
   editingId = null;

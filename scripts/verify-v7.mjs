@@ -29,7 +29,7 @@ try {
   assert.equal((await $('stop-audio').textContent()).trim(), 'Stop sound');
   assert.ok(await $('stop-audio').isDisabled());
   const labels = await page.locator('#fretboard .string-name').allTextContents();
-  assert.deepEqual(labels, ['D', 'A', 'D', 'G', 'B', 'e']);
+  assert.deepEqual(labels, ['e', 'B', 'G', 'D', 'A', 'D']);
   const palette = await page.locator('#fretboard .fret-position').evaluateAll(es =>
     Array.from({length:12},(_,pc)=>getComputedStyle(es.find(e=>e.classList.contains('pitch-'+pc))).getPropertyValue('--note-color').trim()));
   assert.equal(new Set(palette).size,12);

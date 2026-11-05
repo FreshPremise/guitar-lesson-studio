@@ -45,7 +45,7 @@ for (const path of files) {
 }
 await writeFile(
   resolve(output, 'release-manifest.json'),
-  JSON.stringify({ version: '0.9.3', kind: mode, files: manifest }, null, 2) + '\n',
+  JSON.stringify({ version: '0.9.4', kind: mode, files: manifest }, null, 2) + '\n',
 );
 console.log(
   `${mode}: ${files.length} allowlisted files prepared in ${relative(root, output).replaceAll('\\', '/')}`,

@@ -58,8 +58,24 @@ export async function prepareSamples(context, sound = 'acoustic') {
           if (a > 0.008) first = Math.min(first, i);
         }
       }
-      if (!peak || first === buffer.length) throw new Error('Empty acoustic sample');
-      return [midi, { buffer, gain: 0.8 / peak, offset: Math.max(0, first / buffer.sampleRate - 0.003) }];
+      if (!peak || first === buffer.length) throw new Error('Empty guitar sample');
+      const offset = Math.max(0, first / buffer.sampleRate - 0.003);
+      let gain = 0.8 / peak;
+      if (sound === 'electric') {
+        // The electric recordings have similar peaks but different note-body levels.
+        // Balance the early sustain, keeping a tight limit so quiet tails/noise are
+        // never boosted dramatically and a loud pick transient still has headroom.
+        const from = Math.min(buffer.length, first + Math.round(buffer.sampleRate * 0.08)),
+          to = Math.min(buffer.length, first + Math.round(buffer.sampleRate * 0.5));
+        let energy = 0;
+        for (let c = 0; c < buffer.numberOfChannels; c++) {
+          const data = buffer.getChannelData(c);
+          for (let i = from; i < to; i++) energy += data[i] ** 2;
+        }
+        const rms = Math.sqrt(energy / Math.max(1, (to - from) * buffer.numberOfChannels)) * gain;
+        if (rms > 0.005) gain *= Math.max(0.72, Math.min(1.4, 0.125 / rms));
+      }
+      return [midi, { buffer, gain, offset }];
     }),
   ).then((entries) => new Map(entries));
   cache.set(sound, pending);

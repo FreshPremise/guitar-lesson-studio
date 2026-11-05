@@ -48,7 +48,7 @@ test('legacy v1 backups gain optional preferences without changing their music o
   );
   assert.deepEqual(restored.tab[0], { ...old.tab[0], tuning: 'standard', beats: 1, strum: 'down' });
   assert.equal(restored.tempo, 90);
-  assert.equal(restored.flipped, true);
+  assert.equal(restored.flipped, false);
 });
 test('missing data, bad versions, malformed records and excessive data reject whole payloads', () => {
   for (const raw of [
