@@ -6,21 +6,6 @@ A browser-based guitar workbench with an interactive fretboard, chord recognitio
 
 ![Guitar Lesson Studio showing a color-coded C chord and an arranged chord sequence](docs/guitar-lesson-studio.png)
 
-*Actual application screenshot using a demonstration composition.*
-
-## New in 0.9.5
-
-- **Play arpeggio** plays the selected grip one note at a time. On an empty fretboard, the dialog offers an example without adding anything to your music.
-- **Chord degrees** labels the visible notes from one root: the recognized chord, or the selected key when there is no recognized chord. Switch back to **Note names** to restore the original view.
-- The fretboard always shows the thin string at the top. Previously saved music opens in that orientation too.
-
-## New in 0.9.4
-
-- Add any Library card directly to a sequence, including while the Library is expanded.
-- Compare common **Other shapes** in the Library or sequence editor, including the first step, while keeping the chord's tuning, capo and bass note.
-- Clean electric has more even note levels, a fuller tone and gentler releases in playback and WAV exports.
-- The fretboard puts the higher, thinner strings at the top.
-
 ## Install and open
 
 You need **Node.js 22 or newer** and a current browser.
